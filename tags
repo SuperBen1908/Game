@@ -1,0 +1,164 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.7	//
+ASSERT	src\game.h	14;"	d
+ASSERT	src\game.h	16;"	d
+DEBUG_platform_free_file_memory	src\win32.c	/^void DEBUG_platform_free_file_memory(void *memory)$/;"	f
+DEBUG_platform_read_entire_file	src\win32.c	/^void *DEBUG_platform_read_entire_file(char *file_name, u32 *file_size)$/;"	f
+DEBUG_platform_write_entire_file	src\win32.c	/^bool32 DEBUG_platform_write_entire_file(char *file_name,$/;"	f
+DEFINE_STUB	src\win32.c	72;"	d	file:
+FALSE	src\game.h	5;"	d
+GAME_UPDATE_HZ	src\win32.c	13;"	d	file:
+GB	src\game.h	40;"	d
+GLOBAL_VARIABLE	src\game.h	10;"	d
+INTERNAL	src\game.h	11;"	d
+KB	src\game.h	38;"	d
+KEY_PRESSED	src\game.h	/^  KEY_PRESSED,$/;"	e	enum:game_key_state_e
+KEY_RELEASED	src\game.h	/^  KEY_RELEASED,$/;"	e	enum:game_key_state_e
+LOCAL_PERSIST	src\game.h	9;"	d
+LOGIC_KEYS_N	src\game.h	/^  LOGIC_KEYS_N, $/;"	e	enum:game_key_e
+LOGIC_KEY_ATTACK	src\game.h	/^  LOGIC_KEY_ATTACK,$/;"	e	enum:game_key_e
+LOGIC_KEY_DEFEND	src\game.h	/^  LOGIC_KEY_DEFEND,$/;"	e	enum:game_key_e
+LOGIC_KEY_DOWN	src\game.h	/^  LOGIC_KEY_DOWN,$/;"	e	enum:game_key_e
+LOGIC_KEY_HEAL	src\game.h	/^  LOGIC_KEY_HEAL,$/;"	e	enum:game_key_e
+LOGIC_KEY_LEFT	src\game.h	/^  LOGIC_KEY_LEFT,$/;"	e	enum:game_key_e
+LOGIC_KEY_QUIT	src\game.h	/^  LOGIC_KEY_QUIT,$/;"	e	enum:game_key_e
+LOGIC_KEY_RIGHT	src\game.h	/^  LOGIC_KEY_RIGHT,$/;"	e	enum:game_key_e
+LOGIC_KEY_STOP	src\game.h	/^  LOGIC_KEY_STOP,$/;"	e	enum:game_key_e
+LOGIC_KEY_UP	src\game.h	/^  LOGIC_KEY_UP,$/;"	e	enum:game_key_e
+MB	src\game.h	39;"	d
+MONITOR_REFRESH_HZ	src\win32.c	12;"	d	file:
+MSEC2SEC	src\game.h	42;"	d
+MSEC2USEC	src\game.h	47;"	d
+PI	src\game.h	6;"	d
+SEC2MSEC	src\game.h	46;"	d
+SEC2USEC	src\game.h	48;"	d
+SECONDS_PER_FRAME	src\win32.c	14;"	d	file:
+TRUE	src\game.h	4;"	d
+USEC2MSEC	src\game.h	43;"	d
+USEC2SEC	src\game.h	44;"	d
+USECONDS_PER_FRAME	src\win32.c	15;"	d	file:
+WinMain	src\win32.c	/^WinMain(HINSTANCE Instance,$/;"	f
+XInputGetState	src\win32.c	92;"	d	file:
+XInputSetState	src\win32.c	99;"	d	file:
+bitmap_memory_size	src\game.h	/^  i32   bitmap_memory_size;$/;"	m	struct:__anon1
+bitmap_memory_size	src\win32.c	/^  u32         bitmap_memory_size;$/;"	m	struct:__anon3	file:
+blue_offset	src\game.h	/^  i16 blue_offset;$/;"	m	struct:game_state_t
+blue_vel	src\game.h	/^  i16 blue_vel;$/;"	m	struct:game_state_t
+bool16	src\game.h	/^typedef uint16_t bool16;$/;"	t
+bool32	src\game.h	/^typedef uint32_t bool32;$/;"	t
+bool64	src\game.h	/^typedef uint64_t bool64;$/;"	t
+bool8	src\game.h	/^typedef uint8_t  bool8;$/;"	t
+buffer	src\win32.c	/^  LPDIRECTSOUNDBUFFER buffer;$/;"	m	struct:__anon4	file:
+buffer_size	src\win32.c	/^  u32                 buffer_size;$/;"	m	struct:__anon4	file:
+bytes_per_pixel	src\game.h	/^  i32   bytes_per_pixel;$/;"	m	struct:__anon1
+bytes_per_pixel	src\win32.c	/^  u32         bytes_per_pixel;$/;"	m	struct:__anon3	file:
+bytes_per_sample	src\win32.c	/^  u32                 bytes_per_sample;$/;"	m	struct:__anon4	file:
+cur_sample	src\win32.c	/^  u32                 cur_sample;$/;"	m	struct:__anon4	file:
+f_inv_step	src\game.h	/^  real32 f_inv_step;$/;"	m	struct:game_state_t
+f_step	src\game.h	/^  real32 f_step;$/;"	m	struct:game_state_t
+flip_play_cursor	src\win32.c	/^  DWORD flip_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+flip_write_cursor	src\win32.c	/^  DWORD flip_write_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+freq	src\game.h	/^  real32 freq;$/;"	m	struct:game_state_t
+game_get_sound_samples	src\game.c	/^void game_get_sound_samples(game_memory_t       *game_memory,$/;"	f
+game_get_sound_samples	src\win32.c	86;"	d	file:
+game_input	src\game.c	/^INTERNAL void game_input(game_input_t      *input,$/;"	f
+game_input_t	src\game.h	/^typedef struct game_input_t {$/;"	s
+game_input_t	src\game.h	/^} game_input_t;$/;"	t	typeref:struct:game_input_t
+game_key_e	src\game.h	/^typedef enum game_key_e {$/;"	g
+game_key_e	src\game.h	/^} game_key_e;$/;"	t	typeref:enum:game_key_e
+game_key_state_e	src\game.h	/^typedef enum game_key_state_e {$/;"	g
+game_key_state_e	src\game.h	/^} game_key_state_e;$/;"	t	typeref:enum:game_key_state_e
+game_key_t	src\game.h	/^typedef struct game_key_t {$/;"	s
+game_key_t	src\game.h	/^} game_key_t;$/;"	t	typeref:struct:game_key_t
+game_memory_t	src\game.h	/^typedef struct game_memory_t {$/;"	s
+game_memory_t	src\game.h	/^} game_memory_t;$/;"	t	typeref:struct:game_memory_t
+game_offscreen_buffer_t	src\game.h	/^} game_offscreen_buffer_t;$/;"	t	typeref:struct:__anon1
+game_output_sound	src\game.c	/^INTERNAL void game_output_sound(game_sound_output_t *sound_buffer,$/;"	f
+game_sound_output_t	src\game.h	/^typedef struct game_sound_output_t {$/;"	s
+game_sound_output_t	src\game.h	/^} game_sound_output_t;$/;"	t	typeref:struct:game_sound_output_t
+game_state_t	src\game.h	/^typedef struct game_state_t {$/;"	s
+game_state_t	src\game.h	/^} game_state_t;$/;"	t	typeref:struct:game_state_t
+game_time_t	src\game.h	/^typedef u64 game_time_t;$/;"	t
+game_update_and_render	src\game.c	/^void game_update_and_render(game_memory_t           *game_memory,$/;"	f
+game_update_and_render	src\win32.c	81;"	d	file:
+green_offset	src\game.h	/^  i16 green_offset;$/;"	m	struct:game_state_t
+green_vel	src\game.h	/^  i16 green_vel;$/;"	m	struct:game_state_t
+height	src\game.h	/^  i32   height;$/;"	m	struct:__anon1
+height	src\win32.c	/^  int height;$/;"	m	struct:__anon2	file:
+height	src\win32.c	/^  u32         height;$/;"	m	struct:__anon3	file:
+i16	src\game.h	/^typedef int16_t i16;$/;"	t
+i32	src\game.h	/^typedef int32_t i32;$/;"	t
+i64	src\game.h	/^typedef int64_t i64;$/;"	t
+i8	src\game.h	/^typedef int8_t  i8;$/;"	t
+info	src\win32.c	/^  BITMAPINFO  info;$/;"	m	struct:__anon3	file:
+is_initialized	src\game.h	/^  bool32  is_initialized;$/;"	m	struct:game_memory_t
+keys	src\game.h	/^  game_key_t keys[LOGIC_KEYS_N];$/;"	m	struct:game_input_t
+memory	src\game.h	/^  void *memory;$/;"	m	struct:__anon1
+memory	src\win32.c	/^  void *      memory;$/;"	m	struct:__anon3	file:
+output_byte_count	src\win32.c	/^  DWORD output_byte_count;$/;"	m	struct:win32_debug_sound_marker_t	file:
+output_location	src\win32.c	/^  DWORD output_location;$/;"	m	struct:win32_debug_sound_marker_t	file:
+output_next_play_cursor	src\win32.c	/^  DWORD output_next_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+output_play_cursor	src\win32.c	/^  DWORD output_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+output_write_cursor	src\win32.c	/^  DWORD output_write_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+permanent_storage	src\game.h	/^  u8     *permanent_storage;$/;"	m	struct:game_memory_t
+permanent_storage_size	src\game.h	/^  u64     permanent_storage_size;$/;"	m	struct:game_memory_t
+pitch	src\game.h	/^  i32   pitch;$/;"	m	struct:__anon1
+pitch	src\win32.c	/^  u32         pitch;$/;"	m	struct:__anon3	file:
+platform_get_clock	src\win32.c	/^inline game_time_t platform_get_clock(void)$/;"	f
+press_rel	src\game.h	/^  u8 press_rel;$/;"	m	struct:game_key_t
+press_rel	src\win32.c	/^  u8  press_rel[LOGIC_KEYS_N];$/;"	m	struct:win32_input_t	file:
+prev_input	src\game.h	/^  game_input_t prev_input;$/;"	m	struct:game_state_t
+real32	src\game.h	/^typedef float    real32;$/;"	t
+real64	src\game.h	/^typedef double   real64;$/;"	t
+render_gradient	src\game.c	/^INTERNAL void render_gradient(game_offscreen_buffer_t *offscreen_buffer,$/;"	f
+running	src\game.h	/^  bool32 running;$/;"	m	struct:game_state_t
+running	src\win32.c	/^GLOBAL_VARIABLE bool32 running;$/;"	v
+safety_samples_bytes	src\win32.c	/^  u32                 safety_samples_bytes;$/;"	m	struct:__anon4	file:
+samples	src\game.h	/^  i16 *samples;$/;"	m	struct:game_sound_output_t
+samples_count	src\game.h	/^  u32  samples_count;$/;"	m	struct:game_sound_output_t
+samples_per_sec	src\game.h	/^  i32  samples_per_sec;$/;"	m	struct:game_sound_output_t
+samples_per_sec	src\win32.c	/^  u32                 samples_per_sec;$/;"	m	struct:__anon4	file:
+start	src\game.h	/^  bool32 start;$/;"	m	struct:game_state_t
+start_samp_count	src\game.h	/^  bool32 start_samp_count;$/;"	m	struct:game_state_t
+start_samp_total	src\game.h	/^  bool32 start_samp_total;$/;"	m	struct:game_state_t
+t	src\game.h	/^  real32 t;$/;"	m	struct:game_state_t
+t_step	src\game.h	/^  real32 t_step;$/;"	m	struct:game_state_t
+transient_storage	src\game.h	/^  u8     *transient_storage;$/;"	m	struct:game_memory_t
+transient_storage_size	src\game.h	/^  u64     transient_storage_size;$/;"	m	struct:game_memory_t
+u16	src\game.h	/^typedef uint16_t u16;$/;"	t
+u32	src\game.h	/^typedef uint32_t u32;$/;"	t
+u64	src\game.h	/^typedef uint64_t u64;$/;"	t
+u8	src\game.h	/^typedef uint8_t  u8;$/;"	t
+vk_code	src\win32.c	/^  u32 vk_code[LOGIC_KEYS_N];$/;"	m	struct:win32_input_t	file:
+volume	src\game.h	/^  real32 volume;$/;"	m	struct:game_state_t
+width	src\game.h	/^  i32   width;$/;"	m	struct:__anon1
+width	src\win32.c	/^  int width;$/;"	m	struct:__anon2	file:
+width	src\win32.c	/^  u32         width;$/;"	m	struct:__anon3	file:
+win32_clear_sound_buffer	src\win32.c	/^win32_clear_sound_buffer(void)$/;"	f
+win32_debug_draw_rect	src\win32.c	/^win32_debug_draw_rect(win32_offscreen_buffer_t *offscreen_buffer,$/;"	f
+win32_debug_draw_vertical	src\win32.c	/^win32_debug_draw_vertical(win32_offscreen_buffer_t *offscreen_buffer,$/;"	f
+win32_debug_sound_marker_t	src\win32.c	/^typedef struct win32_debug_sound_marker_t {$/;"	s	file:
+win32_debug_sound_marker_t	src\win32.c	/^} win32_debug_sound_marker_t;$/;"	t	typeref:struct:win32_debug_sound_marker_t	file:
+win32_debug_sound_sync	src\win32.c	/^win32_debug_sound_sync(win32_offscreen_buffer_t   *offscreen_buffer,$/;"	f
+win32_display_buffer_in_window	src\win32.c	/^win32_display_buffer_in_window(HDC                       device_ctx,$/;"	f
+win32_fill_sound_buffer	src\win32.c	/^win32_fill_sound_buffer(game_sound_output_t *game_sound_output,$/;"	f
+win32_get_window_dimension	src\win32.c	/^win32_get_window_dimension(HWND window)$/;"	f
+win32_init_dsound	src\win32.c	/^win32_init_dsound(HWND window,$/;"	f
+win32_init_input	src\win32.c	/^win32_init_input(win32_input_t *win32_input)$/;"	f
+win32_input_t	src\win32.c	/^typedef struct win32_input_t {$/;"	s	file:
+win32_input_t	src\win32.c	/^} win32_input_t;$/;"	t	typeref:struct:win32_input_t	file:
+win32_main_window_callback	src\win32.c	/^win32_main_window_callback(HWND   window,$/;"	f
+win32_offscreen_buffer	src\win32.c	/^GLOBAL_VARIABLE win32_offscreen_buffer_t win32_offscreen_buffer;$/;"	v
+win32_offscreen_buffer_t	src\win32.c	/^} win32_offscreen_buffer_t;$/;"	t	typeref:struct:__anon3	file:
+win32_performence_frequency	src\win32.c	/^GLOBAL_VARIABLE u64 win32_performence_frequency;$/;"	v
+win32_read_input	src\win32.c	/^win32_read_input(win32_input_t *win32_input)$/;"	f
+win32_reload_game	src\win32.c	/^win32_reload_game(void)$/;"	f
+win32_resize_DIB_section	src\win32.c	/^win32_resize_DIB_section(win32_offscreen_buffer_t *offset_buffer,$/;"	f
+win32_set_query_performence_frequency	src\win32.c	/^win32_set_query_performence_frequency(void)$/;"	f
+win32_sound_output	src\win32.c	/^GLOBAL_VARIABLE win32_sound_output_t win32_sound_output;$/;"	v
+win32_sound_output_t	src\win32.c	/^} win32_sound_output_t;$/;"	t	typeref:struct:__anon4	file:
+win32_window_dimension_t	src\win32.c	/^} win32_window_dimension_t;$/;"	t	typeref:struct:__anon2	file:
