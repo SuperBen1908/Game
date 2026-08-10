@@ -7,6 +7,7 @@
 #include <math.h>
 
 #include "game.h"
+#define PLATFORM
 #include "platform.h"
 
 #define MONITOR_REFRESH_HZ 60
@@ -69,34 +70,40 @@ GLOBAL_VARIABLE bool32 running;
 
 
 
-#define DEFINE_STUB(ret_type, funcname, args, ret_val)               \
-          typedef ret_type funcname##_t##args;                       \
-          ret_type funcname##_stub##args { return ret_val; }         \
-          GLOBAL_VARIABLE funcname##_t *_##funcname = funcname##_stub;
+#define DEFINE_STUB(ret_type, funcname, args, ret_val)                 \
+          typedef ret_type funcname##_t##args;                         \
+          ret_type funcname##_stub_f##args { return ret_val; }         \
+          GLOBAL_VARIABLE funcname##_t *funcname##_f = funcname##_stub_f;
 
 
 DEFINE_STUB(void, \
             game_update_and_render, \
-            (game_memory_t *game_memory, game_offscreen_buffer_t *offscreen_buffer, game_input_t *input), );
-#define game_update_and_render _game_update_and_render
+            (game_memory_t *game_memory, game_offscreen_buffer_t *offscreen_buffer, game_input_t *input, real32 dt), )
 
 DEFINE_STUB(void, \
             game_get_sound_samples, \
-            (game_memory_t *game_memory, game_sound_output_t *sound_output_buffer), );
-#define game_get_sound_samples _game_get_sound_samples
+            (game_memory_t *game_memory, game_sound_output_t *sound_output_buffer), )
 
-DEFINE_STUB(DWORD WINAPI,                              \
-            XInputGetState,                            \
+DEFINE_STUB(void, \
+            game_get_platform, \
+            (void **platform_api[PLATFORM_API_N]), ) \
+
+DEFINE_STUB(DWORD WINAPI, \
+            XInputGetState, \
             (DWORD dwUserIndex, XINPUT_STATE *pState), \
-            ERROR_DEVICE_NOT_CONNECTED);
-#define XInputGetState _XInputGetState
+            ERROR_DEVICE_NOT_CONNECTED)
 
 
-DEFINE_STUB(DWORD WINAPI,                                      \
-            XInputSetState,                                    \
+DEFINE_STUB(DWORD WINAPI, \
+            XInputSetState, \
             (DWORD dwUserIndex, XINPUT_VIBRATION *pVibration), \
-            ERROR_DEVICE_NOT_CONNECTED);
-#define XInputSetState _XInputSetState
+            ERROR_DEVICE_NOT_CONNECTED)
+
+
+DEFINE_STUB(HRESULT WINAPI, \
+            DirectSoundCreate, \
+            (LPCGUID pcGuidDevicem, LPDIRECTSOUND *ppDS, LPUNKNOWN pUnkOuter), \
+            0)
 
 
 // --------- //
@@ -104,8 +111,7 @@ DEFINE_STUB(DWORD WINAPI,                                      \
 // --------- //
 
 
-INTERNAL inline FILETIME
-win32_get_last_write_time(char *file_name)
+INTERNAL inline FILETIME win32_get_last_write_time(char *file_name)
 {
   FILETIME last_write_time = { 0 };
 
@@ -120,10 +126,9 @@ win32_get_last_write_time(char *file_name)
 }
 
 
-INTERNAL void 
-string_cat(char *src1, u32 src1_len,
-           char *src2, u32 src2_len,
-           char *dst,  u32 dst_len)
+INTERNAL void string_cat(char *src1, u32 src1_len,
+                         char *src2, u32 src2_len,
+                         char *dst,  u32 dst_len)
 {
   u32 l1 = 0, l2 = 0;
   char *w = src1;
@@ -141,113 +146,43 @@ string_cat(char *src1, u32 src1_len,
 }
 
 
-INTERNAL void
-win32_reload_game(void)
-{
-
-  LOCAL_PERSIST HMODULE game_lib;
-
-  LOCAL_PERSIST char exe_file_name[MAX_PATH];
-  char relative_src_dll_name[] = "game.dll";
-  char relative_tmp_dll_name[] = "hot_game.dll";
-  char src_dll_name[MAX_PATH];
-  char tmp_dll_name[MAX_PATH];
-  
-  LOCAL_PERSIST DWORD exe_file_name_len = 0;
-  if (!exe_file_name_len)
-    exe_file_name_len = GetModuleFileNameA(0, exe_file_name, sizeof(exe_file_name));
-
-  char *file_pos = exe_file_name;
-  for (char *p = exe_file_name; *p && p - exe_file_name < MAX_PATH; ++p)
-    if (*p == '\\')
-      file_pos = p+1;
-
-  string_cat(exe_file_name, (u32)(file_pos - exe_file_name),
-             relative_src_dll_name, sizeof(relative_src_dll_name),
-             src_dll_name, sizeof(src_dll_name));
-
-  string_cat(exe_file_name, (u32)(file_pos - exe_file_name),
-             relative_tmp_dll_name, sizeof(relative_tmp_dll_name),
-             tmp_dll_name, sizeof(tmp_dll_name));
-
-  LOCAL_PERSIST bool32 just_reloaded = FALSE;
-  bool32 reload = FALSE;
-
-  LOCAL_PERSIST FILETIME last_write_time;
-  FILETIME cur_write_time = win32_get_last_write_time(src_dll_name);
-  if (CompareFileTime(&cur_write_time, &last_write_time)) {
-    if (!just_reloaded) {
-      reload = TRUE;
-      just_reloaded = TRUE;
-    }
-  }
-
-  if (just_reloaded && !reload)
-    just_reloaded = FALSE;
-
-  last_write_time = cur_write_time;
-
-  if (!reload)
-    return;
-
-
-  if (game_lib) {
-    FreeLibrary(game_lib);
-  }
-
-  CopyFile(src_dll_name, tmp_dll_name, FALSE);
-
-  game_lib = LoadLibraryA(tmp_dll_name);
-
-  if (game_lib) {
-    i32 err = 0;
-    game_update_and_render = (game_update_and_render_t *)GetProcAddress(game_lib, "game_update_and_render");
-    if (!game_update_and_render)
-      err = -1;
-    game_get_sound_samples = (game_get_sound_samples_t *)GetProcAddress(game_lib, "game_get_sound_samples");
-    if (!game_get_sound_samples)
-      err = -1;
-
-    if (err) {
-      game_update_and_render = game_update_and_render_stub;
-      game_get_sound_samples = game_get_sound_samples_stub;
-      FreeLibrary(game_lib);
-      game_lib = NULL;
-    }
-  }
-}
-
-
-INTERNAL void
-win32_init_input(win32_input_t *win32_input)
+INTERNAL void win32_init_input(win32_input_t *win32_input)
 {
   HMODULE xinput_lib = LoadLibraryA("xinput1_4.dll");
   if (!xinput_lib)
     xinput_lib = LoadLibraryA("xinput1_3.dll");
   if (xinput_lib) {
-    XInputGetState = (XInputGetState_t *)GetProcAddress(xinput_lib, "XInputGetState");
-    XInputSetState = (XInputSetState_t *)GetProcAddress(xinput_lib, "XInputSetState");
+    XInputGetState_f = (XInputGetState_t *)GetProcAddress(xinput_lib, "XInputGetState");
+    XInputSetState_f = (XInputSetState_t *)GetProcAddress(xinput_lib, "XInputSetState");
   }
   else {
       // TODO
   }
 
-  win32_input->vk_code[LOGIC_KEY_UP]     = 'W';
-  win32_input->vk_code[LOGIC_KEY_DOWN]   = 'S';
-  win32_input->vk_code[LOGIC_KEY_RIGHT]  = 'D';
-  win32_input->vk_code[LOGIC_KEY_LEFT]   = 'A';
-  win32_input->vk_code[LOGIC_KEY_STOP]   = '0';
+  win32_input->vk_code[LOGIC_KEY_RIGHT]     = 'D';
+  win32_input->vk_code[LOGIC_KEY_LEFT]      = 'A';
+  win32_input->vk_code[LOGIC_KEY_UP]        = 'K';
+  win32_input->vk_code[LOGIC_KEY_DOWN]      = 'J';
+  win32_input->vk_code[LOGIC_KEY_FORWARD]   = 'W';
+  win32_input->vk_code[LOGIC_KEY_BACKWARD]  = 'S';
+
+  win32_input->vk_code[LOGIC_KEY_ROT_UP]       = 'Y';
+  win32_input->vk_code[LOGIC_KEY_ROT_DOWN]     = 'H';
+  win32_input->vk_code[LOGIC_KEY_ROT_RIGHT]    = 'E';
+  win32_input->vk_code[LOGIC_KEY_ROT_LEFT]     = 'Q';
+  win32_input->vk_code[LOGIC_KEY_ROT_FORWARD]  = 'T';
+  win32_input->vk_code[LOGIC_KEY_ROT_BACKWARD] = 'R';
+
   win32_input->vk_code[LOGIC_KEY_ATTACK] = 'X';
-  win32_input->vk_code[LOGIC_KEY_DEFEND] = 'C';
-  win32_input->vk_code[LOGIC_KEY_HEAL]   = 'B';
-  win32_input->vk_code[LOGIC_KEY_QUIT]   = 'Q';
+  win32_input->vk_code[LOGIC_KEY_DEFEND] = 'Z';
+  win32_input->vk_code[LOGIC_KEY_HEAL]   = 'C';
+  win32_input->vk_code[LOGIC_KEY_QUIT]   = ' ';
 }
 
 
-INTERNAL void
-win32_init_dsound(HWND window,
-                  u32  samples_per_sec,
-                  u32  nchannels)
+INTERNAL void win32_init_dsound(HWND window,
+                                u32  samples_per_sec,
+                                u32  nchannels)
 {
   win32_sound_output.samples_per_sec  = samples_per_sec;
   win32_sound_output.bytes_per_sample = sizeof(i16)*nchannels;
@@ -260,11 +195,10 @@ win32_init_dsound(HWND window,
   HMODULE dsound_lib = LoadLibraryA("dsound.dll");
 
   if (dsound_lib) {
-    typedef HRESULT WINAPI DirectSoundCreate_t(LPCGUID pcGuidDevicem, LPDIRECTSOUND *ppDS, LPUNKNOWN pUnkOuter);
-    DirectSoundCreate_t *_DirectSoundCreate = (DirectSoundCreate_t *)GetProcAddress(dsound_lib, "DirectSoundCreate");
+    DirectSoundCreate_f = (DirectSoundCreate_t *)GetProcAddress(dsound_lib, "DirectSoundCreate");
 
     LPDIRECTSOUND direct_sound;
-    if (_DirectSoundCreate && SUCCEEDED(_DirectSoundCreate(NULL, &direct_sound, NULL))) {
+    if (DirectSoundCreate_f && SUCCEEDED(DirectSoundCreate_f(NULL, &direct_sound, NULL))) {
 
       WAVEFORMATEX wave_format    = { 0 };
       wave_format.wFormatTag      = WAVE_FORMAT_PCM;
@@ -570,7 +504,13 @@ win32_read_input(win32_input_t *win32_input)
 
 
 #ifdef GAME_INTERNAL
-void *DEBUG_platform_read_entire_file(char *file_name, u32 *file_size)
+void win32_DEBUG_free_file_memory(void *memory)
+{
+  VirtualFree(memory, 0, MEM_RELEASE);
+}
+
+
+void *win32_DEBUG_read_entire_file(char *file_name, u32 *file_size)
 {
   void *result = NULL;
 
@@ -592,7 +532,7 @@ void *DEBUG_platform_read_entire_file(char *file_name, u32 *file_size)
           *file_size = file_size_32;
         }
         else {
-          DEBUG_platform_free_file_memory(result);
+          win32_DEBUG_free_file_memory(result);
           result = NULL;
         }
       }
@@ -611,15 +551,9 @@ void *DEBUG_platform_read_entire_file(char *file_name, u32 *file_size)
 }
 
 
-void DEBUG_platform_free_file_memory(void *memory)
-{
-  VirtualFree(memory, 0, MEM_RELEASE);
-}
-
-
-bool32 DEBUG_platform_write_entire_file(char *file_name,
-                                        u32   memory_size,
-                                        void *memory)
+bool32 win32_DEBUG_write_entire_file(char *file_name,
+                                     u32   memory_size,
+                                     void *memory)
 {
   bool32 result = FALSE;
 
@@ -643,7 +577,7 @@ bool32 DEBUG_platform_write_entire_file(char *file_name,
 
 
 INTERNAL void
-win32_debug_draw_vertical(win32_offscreen_buffer_t *offscreen_buffer,
+win32_DEBUG_draw_vertical(win32_offscreen_buffer_t *offscreen_buffer,
                           u32 x, u32 top, u32 bottom, u32 color)
 {
   u8 *pixel = (u8 *)offscreen_buffer->memory +
@@ -658,7 +592,7 @@ win32_debug_draw_vertical(win32_offscreen_buffer_t *offscreen_buffer,
 
 
 INTERNAL void
-win32_debug_draw_rect(win32_offscreen_buffer_t *offscreen_buffer,
+win32_DEBUG_draw_rect(win32_offscreen_buffer_t *offscreen_buffer,
                       u32 left, u32 right, u32 top, u32 bottom, u32 color)
 {
   ASSERT(left >= 0 && right >= 0);
@@ -685,7 +619,7 @@ win32_debug_draw_rect(win32_offscreen_buffer_t *offscreen_buffer,
 
 
 INTERNAL void
-win32_debug_sound_sync(win32_offscreen_buffer_t   *offscreen_buffer,
+win32_DEBUG_sound_sync(win32_offscreen_buffer_t   *offscreen_buffer,
                        win32_debug_sound_marker_t *sound_markers,
                        u32                         sound_markers_count,
                        u32                         current_marker_idx,
@@ -714,39 +648,39 @@ win32_debug_sound_sync(win32_offscreen_buffer_t   *offscreen_buffer,
     }
 
     x = pad_x + (u32)(step * (real32)sound_markers[marker_idx].flip_play_cursor);
-    win32_debug_draw_rect(offscreen_buffer, x-pad_p, x+pad_p, top+pad_y, bottom-pad_y, 0x00008800);
-    win32_debug_draw_vertical(offscreen_buffer, x, top+pad_y, bottom-pad_y, 0x0000FF00);
+    win32_DEBUG_draw_rect(offscreen_buffer, x-pad_p, x+pad_p, top+pad_y, bottom-pad_y, 0x00008800);
+    win32_DEBUG_draw_vertical(offscreen_buffer, x, top+pad_y, bottom-pad_y, 0x0000FF00);
     x = pad_x + (u32)(step * (real32)sound_markers[marker_idx].flip_write_cursor);
-    win32_debug_draw_rect(offscreen_buffer, x-pad_w, x+pad_w, top, bottom, 0x00880000);
-    win32_debug_draw_vertical(offscreen_buffer, x, top, bottom, 0x00FF0000);
+    win32_DEBUG_draw_rect(offscreen_buffer, x-pad_w, x+pad_w, top, bottom, 0x00880000);
+    win32_DEBUG_draw_vertical(offscreen_buffer, x, top, bottom, 0x00FF0000);
 
     if (marker_idx == current_marker_idx) {
       top    += line_height;
       bottom += line_height;
 
       x = pad_x + (u32)(step * (real32)sound_markers[marker_idx].output_play_cursor);
-      win32_debug_draw_rect(offscreen_buffer, x-pad_p, x+pad_p, top+pad_y, bottom-pad_y, 0x00008800);
-      win32_debug_draw_vertical(offscreen_buffer, x, top+pad_y, bottom-pad_y, 0x0000FF00);
+      win32_DEBUG_draw_rect(offscreen_buffer, x-pad_p, x+pad_p, top+pad_y, bottom-pad_y, 0x00008800);
+      win32_DEBUG_draw_vertical(offscreen_buffer, x, top+pad_y, bottom-pad_y, 0x0000FF00);
       x = pad_x + (u32)(step * (real32)sound_markers[marker_idx].output_write_cursor);
-      win32_debug_draw_rect(offscreen_buffer, x-pad_w, x+pad_w, top, bottom, 0x00880000);
-      win32_debug_draw_vertical(offscreen_buffer, x, top, bottom, 0x00FF0000);
+      win32_DEBUG_draw_rect(offscreen_buffer, x-pad_w, x+pad_w, top, bottom, 0x00880000);
+      win32_DEBUG_draw_vertical(offscreen_buffer, x, top, bottom, 0x00FF0000);
 
       top    += line_height;
       bottom += line_height;
 
       x = pad_x + (u32)(step * (real32)sound_markers[marker_idx].output_location);
-      win32_debug_draw_rect(offscreen_buffer, x-pad_p, x+pad_p, top+pad_y, bottom-pad_y, 0x00008800);
-      win32_debug_draw_vertical(offscreen_buffer, x, top+pad_y, bottom-pad_y, 0x0000FF00);
+      win32_DEBUG_draw_rect(offscreen_buffer, x-pad_p, x+pad_p, top+pad_y, bottom-pad_y, 0x00008800);
+      win32_DEBUG_draw_vertical(offscreen_buffer, x, top+pad_y, bottom-pad_y, 0x0000FF00);
       x = pad_x + (u32)(step * (real32)(sound_markers[marker_idx].output_location + sound_markers[marker_idx].output_byte_count));
-      win32_debug_draw_rect(offscreen_buffer, x-pad_w, x+pad_w, top, bottom, 0x00880000);
-      win32_debug_draw_vertical(offscreen_buffer, x, top, bottom, 0x00FF0000);
+      win32_DEBUG_draw_rect(offscreen_buffer, x-pad_w, x+pad_w, top, bottom, 0x00880000);
+      win32_DEBUG_draw_vertical(offscreen_buffer, x, top, bottom, 0x00FF0000);
 
       top    += line_height;
       bottom += line_height;
 
       x = pad_x + (u32)(step * (real32)sound_markers[marker_idx].output_next_play_cursor);
-      win32_debug_draw_rect(offscreen_buffer, x-pad_w, x+pad_w, top, bottom, 0x00880000);
-      win32_debug_draw_vertical(offscreen_buffer, x, top, bottom, 0x00FF0000);
+      win32_DEBUG_draw_rect(offscreen_buffer, x-pad_w, x+pad_w, top, bottom, 0x00880000);
+      win32_DEBUG_draw_vertical(offscreen_buffer, x, top, bottom, 0x00FF0000);
     }
   }
 }
@@ -758,7 +692,7 @@ win32_debug_sound_sync(win32_offscreen_buffer_t   *offscreen_buffer,
 // --------- //
 
 
-inline game_time_t platform_get_clock(void)
+game_time_t win32_get_clock(void)
 {
   game_time_t result;
   LARGE_INTEGER counter;
@@ -767,6 +701,97 @@ inline game_time_t platform_get_clock(void)
   result = (u64)(counter.QuadPart / win32_performence_frequency);
 
   return result;
+}
+
+
+// --------- //
+//  SECTION  //
+// --------- //
+
+
+INTERNAL void win32_reload_game(void)
+{
+
+  LOCAL_PERSIST HMODULE game_lib;
+
+  LOCAL_PERSIST char exe_file_name[MAX_PATH];
+  char relative_src_dll_name[] = "game.dll";
+  char relative_tmp_dll_name[] = "hot_game.dll";
+  char src_dll_name[MAX_PATH];
+  char tmp_dll_name[MAX_PATH];
+  
+  LOCAL_PERSIST DWORD exe_file_name_len = 0;
+  if (!exe_file_name_len)
+    exe_file_name_len = GetModuleFileNameA(0, exe_file_name, sizeof(exe_file_name));
+
+  char *file_pos = exe_file_name;
+  for (char *p = exe_file_name; *p && p - exe_file_name < MAX_PATH; ++p)
+    if (*p == '\\')
+      file_pos = p+1;
+
+  string_cat(exe_file_name, (u32)(file_pos - exe_file_name),
+             relative_src_dll_name, sizeof(relative_src_dll_name),
+             src_dll_name, sizeof(src_dll_name));
+
+  string_cat(exe_file_name, (u32)(file_pos - exe_file_name),
+             relative_tmp_dll_name, sizeof(relative_tmp_dll_name),
+             tmp_dll_name, sizeof(tmp_dll_name));
+
+  LOCAL_PERSIST bool32 just_reloaded = FALSE;
+  bool32 reload = FALSE;
+
+  LOCAL_PERSIST FILETIME last_write_time;
+  FILETIME cur_write_time = win32_get_last_write_time(src_dll_name);
+  if (CompareFileTime(&cur_write_time, &last_write_time)) {
+    if (!just_reloaded) {
+      reload = TRUE;
+      just_reloaded = TRUE;
+    }
+  }
+
+  if (just_reloaded && !reload)
+    just_reloaded = FALSE;
+
+  last_write_time = cur_write_time;
+
+  if (!reload)
+    return;
+
+
+  if (game_lib) {
+    FreeLibrary(game_lib);
+  }
+
+  CopyFile(src_dll_name, tmp_dll_name, FALSE);
+
+  game_lib = LoadLibraryA(tmp_dll_name);
+
+  if (game_lib) {
+    i32 err = 0;
+    game_update_and_render_f = (game_update_and_render_t *)GetProcAddress(game_lib, "game_update_and_render");
+    if (!game_update_and_render_f)
+      err = -1;
+    game_get_sound_samples_f = (game_get_sound_samples_t *)GetProcAddress(game_lib, "game_get_sound_samples");
+    if (!game_get_sound_samples_f)
+      err = -1;
+
+    if (err) {
+      game_update_and_render_f = game_update_and_render_stub_f;
+      game_get_sound_samples_f = game_get_sound_samples_stub_f;
+      FreeLibrary(game_lib);
+      game_lib = NULL;
+    }
+
+    game_get_platform_f = (game_get_platform_t *)GetProcAddress(game_lib, "game_get_platform");
+    if (game_get_platform_f) {
+      void **platform_api[PLATFORM_API_N];
+      game_get_platform_f(platform_api);
+      if (platform_api[0]) *platform_api[0] = (void *)win32_DEBUG_read_entire_file;
+      if (platform_api[1]) *platform_api[1] = (void *)win32_DEBUG_free_file_memory;
+      if (platform_api[2]) *platform_api[2] = (void *)win32_DEBUG_write_entire_file;
+      if (platform_api[3]) *platform_api[3] = (void *)win32_get_clock;
+    }
+  }
 }
 
 
@@ -824,7 +849,7 @@ WinMain(HINSTANCE Instance,
 
       game_memory_t game_memory = { 0 };
       game_memory.permanent_storage_size = MB(64);
-      game_memory.transient_storage_size = GB(4);
+      game_memory.transient_storage_size = MB(256);
       u64 total_memory_size = game_memory.permanent_storage_size + game_memory.transient_storage_size;
       game_memory.permanent_storage = VirtualAlloc(base_address, total_memory_size, 
                                                    MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
@@ -854,7 +879,7 @@ WinMain(HINSTANCE Instance,
         }
 #endif
 
-        game_time_t frame_time = platform_get_clock();
+        game_time_t frame_time = win32_get_clock();
         game_time_t cur_time = frame_time;
         u64 begin_rdtsc = __rdtsc();
 
@@ -892,9 +917,10 @@ WinMain(HINSTANCE Instance,
             game_input.keys[key].press_rel = win32_input.press_rel[key];
           }
 
-          game_update_and_render(&game_memory,
-                                 &game_offscreen_buffer,
-                                 &game_input);
+          game_update_and_render_f(&game_memory,
+                                   &game_offscreen_buffer,
+                                   &game_input,
+                                    SECONDS_PER_FRAME);
 
           game_state_t *game_state = (game_state_t *)game_memory.permanent_storage;
           if (!game_state->running)
@@ -939,7 +965,7 @@ WinMain(HINSTANCE Instance,
 
             DWORD exp_sound_bytes_per_frame = samples_per_sec*bytes_per_sample/GAME_UPDATE_HZ;
 
-            game_time_t sound_time = platform_get_clock();
+            game_time_t sound_time = win32_get_clock();
             real32 flip_to_sound_sec = USEC2SEC(sound_time - cur_time);
             real32 sound_to_next_flip = SECONDS_PER_FRAME - flip_to_sound_sec;
 
@@ -982,8 +1008,8 @@ WinMain(HINSTANCE Instance,
             .samples         = &tmp_sound_buffer[0],
           };
 
-          game_get_sound_samples(&game_memory,
-                                 &game_sound_output);
+          game_get_sound_samples_f(&game_memory,
+                                   &game_sound_output);
 
 #ifdef GAME_INTERNAL
           sound_markers[sound_marker_idx].output_next_play_cursor = exp_bytes_to_next_flip;
@@ -1007,7 +1033,7 @@ WinMain(HINSTANCE Instance,
           sprintf_s(str, sizeof(str), "BTL:%u TC:%u BTW %u - PC:%u WC:%u DELTA:%u LAT:%fs\n",
                     byte_to_lock, target_cursor, bytes_to_write,
                     play_cursor, write_cursor, audio_latency_bytes, audio_latency_sec);
-          OutputDebugStringA(str);
+          //OutputDebugStringA(str);
 #endif
 
           if (sound_is_valid) {
@@ -1048,7 +1074,7 @@ WinMain(HINSTANCE Instance,
 
 
           do {
-            cur_time = platform_get_clock();
+            cur_time = win32_get_clock();
 
             DWORD sleep_ms = (u32)USEC2MSEC(USECONDS_PER_FRAME - cur_time + frame_time);
             if ((i32)sleep_ms <= 0)
@@ -1056,13 +1082,13 @@ WinMain(HINSTANCE Instance,
 
             if (sleep_is_granular) {
               wsprintf(str, "sleep for %dms\n", sleep_ms);
-              OutputDebugStringA(str);
+              //OutputDebugStringA(str);
               Sleep(sleep_ms);
             }
           } while (cur_time - frame_time < USECONDS_PER_FRAME);
 
           wsprintf(str, "time_diff:(%dus, %dMcyc)\n", cur_time - frame_time, m_cycles_diff);
-          OutputDebugStringA(str);
+          //OutputDebugStringA(str);
 
           begin_rdtsc = end_rdtsc;
           frame_time = cur_time;
