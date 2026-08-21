@@ -12,7 +12,7 @@
 #define INTERNAL        static
 
 #ifdef GAME_INTERNAL
-#define ASSERT(expr) if (!(expr)) *(int*)NULL;
+#define ASSERT(expr) if (!(expr)) *(int*)NULL = 0;
 #else
 #define ASSERT(expr) 
 #endif
@@ -178,6 +178,9 @@ typedef struct game_state_t {
 
     vec3_t position;
     vec3_t velocity;
+
+    real32 _far;
+    real32 _near;
 
     // R U F
     quaternion_t rotation;

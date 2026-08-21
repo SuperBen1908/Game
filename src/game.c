@@ -12,6 +12,8 @@
 #define SPEED 60
 
 
+GLOBAL_VARIABLE u8 this;
+
 INTERNAL void update_camera(game_state_t *game_state)
 {
 
@@ -55,9 +57,6 @@ INTERNAL void update_camera(game_state_t *game_state)
 INTERNAL void render_background(game_offscreen_buffer_t *offscreen_buffer,
                                 game_state_t            *game_state)
 {
-  real32 w_factor = (real32)1024.0 / offscreen_buffer->width;
-  real32 h_factor = (real32)1024.0 / offscreen_buffer->height;
-
   u8 *row = (u8 *)offscreen_buffer->memory;
   for (int y = 0; y < offscreen_buffer->height; ++y) {
     u32 *pixel = (u32 *)row;
@@ -72,24 +71,14 @@ INTERNAL void render_background(game_offscreen_buffer_t *offscreen_buffer,
   }
 }
 
-
 INTERNAL void render_triangle(game_offscreen_buffer_t *offscreen_buffer,
                               game_state_t            *game_state,
                               triangle_t              *triangle,
-                              u32                      color)
+                              u32                      _color)
 {
   i32 width  = offscreen_buffer->width;
   i32 height = offscreen_buffer->height;
-  real32 tan_fov = 1/(real32)tanf(game_state->camera.fov/2);
-
-  vec3_t triangle_norm = math_triangle_norm(triangle);
-  triangle_norm = math_mul_c_v3(-1.0F/math_norm_v3(triangle_norm), triangle_norm);
-
-  // dont render triangles that doesn't face the camera
-  vec3_t cam_to_tri = math_sub_v3(game_state->camera.position, math_triangle_center(triangle));
-  real32 dot = math_dot_prod_3(cam_to_tri, triangle_norm);
-  if (dot > 0)
-    return;
+  real32 f = 1/(real32)tanf(game_state->camera.fov/2);
 
 
   // move to camera
@@ -99,6 +88,18 @@ INTERNAL void render_triangle(game_offscreen_buffer_t *offscreen_buffer,
     math_sub_v3(triangle->p3, game_state->camera.position),
   };
 
+  if (this)
+    this = this;
+
+  vec3_t triangle_norm = math_triangle_norm(triangle);
+  // dont render triangles that doesn't face the camera
+  for (u8 i = 0; i < 3; ++i) {
+    real32 dot = math_dot_prod_3(moved_p[i], triangle_norm);
+    if (dot < 0)
+      return;
+  }
+
+
   // rotate by camera rotation
   vec3_t cam_p[3] = {
     math_quaternion_rotate(game_state->camera.rotation, moved_p[0]),
@@ -106,19 +107,35 @@ INTERNAL void render_triangle(game_offscreen_buffer_t *offscreen_buffer,
     math_quaternion_rotate(game_state->camera.rotation, moved_p[2]),
   };
 
+
+  // dont render triangles that isn't within the angle of view
+  for (u8 i = 0, oob = 0; i < 3; ++i) {
+    if (cam_p[i].z < fabs(cam_p[i].x) * f ||
+        cam_p[i].z < fabs(cam_p[i].y) * f)
+      ++oob;
+
+    if (oob == 3)
+      return;
+  }
+
+
   // screen projection
   vec2_t p[3];
 
-     for (u8 i = 0; i < 3; ++i) {
+  for (u8 i = 0; i < 3; ++i) {
+    //if (cam_p[i].z < game_state->camera._near)
+    //  return;
+
     if (cam_p[i].z < 0)
-      return;
+      cam_p[i].z *= -1;
 
-    p[i].x = cam_p[i].x / (cam_p[i].z*tan_fov);
+    p[i].x = cam_p[i].x * f / cam_p[i].z;
+    p[i].y = cam_p[i].y * f / cam_p[i].z;
+
     p[i].x = (p[i].x + 1.0F) * width/2.0F;
-
-    p[i].y = cam_p[i].y / (cam_p[i].z*tan_fov);
     p[i].y = (p[i].y + 1.0F) * height/2.0F;
   }
+  vec2_t orig_p[3] = { p[0], p[1], p[2] };
 
 
   // sort points from top to bottom (ascending in y)
@@ -153,47 +170,46 @@ INTERNAL void render_triangle(game_offscreen_buffer_t *offscreen_buffer,
   // draw 2 triangles
 
   u8 *row;
-  i32 y;
-  real32 y_max;
+  real32 y_min, y_max;
 
   if (p[0].y > height) return;
 
   if (p[1].y > 0) {
 
-    y = (u32)p[0].y;
-    if (y < 0) y = 0;
-    if (y > height-1) y = height-1;
+    y_min = p[0].y;
+    y_max = p[1].y;
+    if (y_min < 0) y_min = 0;
+    if (y_max < 0) y_max = 0;
+    if (y_min > height) y_min = (real32)height;
+    if (y_max > height) y_max = (real32)height;
 
-    y_max = (real32)(p[1].y - y);
-    if (y_max > height-y) y_max = (real32)(height-y);
+    row = (u8 *)offscreen_buffer->memory + (u32)y_min*offscreen_buffer->pitch;
+    for (real32 y = y_min; y < y_max; ++y) {
 
-    row = (u8 *)offscreen_buffer->memory + y*offscreen_buffer->pitch;
-    for (u32 dy = 0; dy < y_max; ++dy) {
-      i32 x_min, x_max;
+      real32 x_min, x_max;
 
       // x = x1 + m(y - y1)
+      if (!horizontal[0]) x_min = p[1].x + (y - p[1].y)*m[0];
+      else x_min = p[1].x;
 
-      if (!horizontal[0]) x_min = (u32)(p[1].x + (y - p[1].y + dy)*m[0]);
-      else x_min = (u32)p[1].x;
-
-      if (!horizontal[2]) x_max = (u32)(p[2].x + (y - p[2].y + dy)*m[2]);
-      else x_max = (u32)p[2].x;
+      if (!horizontal[2]) x_max = p[2].x + (y - p[2].y)*m[2];
+      else x_max = p[2].x;
 
       if (x_min > x_max) {
-        i32 tmp = x_min;
+        real32 tmp = x_min;
         x_min = x_max;
         x_max = tmp;
       }
 
       if (x_min < 0) x_min = 0;
-      if (x_min > width-1) x_min = width-1;
+      if (x_min > width-1) x_min = (real32)width-1;
       if (x_max < 0) x_max = 0;
-      if (x_max > width-1) x_max = width-1;
+      if (x_max > width-1) x_max = (real32)width-1;
 
-      u32 *pixel = (u32 *)row + x_min;
-      for (i32 x = x_min; x < x_max; ++x) {
+      u32 *pixel = (u32 *)row + (u32)x_min;
+      for (real32 x = x_min; x < x_max; ++x) {
 
-        *pixel = color;
+        *pixel = triangle_color_interpolate((vec2_t){.x = x, .y = y}, orig_p);
 
         ++pixel;
       }
@@ -204,37 +220,40 @@ INTERNAL void render_triangle(game_offscreen_buffer_t *offscreen_buffer,
 
   if (p[1].y > height) return;
 
-  y = (u32)p[1].y;
-  if (y < 0) y = 0;
+  y_min = p[1].y;
+  y_max = p[2].y;
+  if (y_min < 0) y_min = 0;
+  if (y_max < 0) y_max = 0;
+  if (y_min > height) y_min = (real32)height;
+  if (y_max > height) y_max = (real32)height;
 
-  y_max = (real32)(p[2].y - y);
-  if (y_max > height-y) y_max = (real32)(height-y);
+  row = (u8 *)offscreen_buffer->memory + (u32)y_min*offscreen_buffer->pitch;
+  for (real32 y = y_min; y < y_max; ++y) {
 
-  row = (u8 *)offscreen_buffer->memory + y*offscreen_buffer->pitch;
-  for (u32 dy = 0; dy < y_max; ++dy) {
-    i32 x_min, x_max;
+    real32 x_min, x_max;
 
-    if (!horizontal[1]) x_min = (u32)(p[2].x + (y - p[2].y + dy)*m[1]);
-    else x_min = (u32)p[1].x;
+    // x = x1 + m(y - y1)
+    if (!horizontal[1]) x_min = p[2].x + (y - p[2].y)*m[1];
+    else x_min = p[1].x;
 
-    if (!horizontal[2]) x_max = (u32)(p[2].x + (y - p[2].y + dy)*m[2]);
-    else x_max = (u32)p[0].x;
+    if (!horizontal[2]) x_max = p[2].x + (y - p[2].y)*m[2];
+    else x_max = p[0].x;
 
     if (x_min > x_max) {
-      i32 tmp = x_min;
+      real32 tmp = x_min;
       x_min = x_max;
       x_max = tmp;
     }
 
     if (x_min < 0) x_min = 0;
-    if (x_min > width-1) x_min = width-1;
+    if (x_min > width-1) x_min = (real32)width-1;
     if (x_max < 0) x_max = 0;
-    if (x_max > width-1) x_max = width-1;
+    if (x_max > width-1) x_max = (real32)width-1;
 
-    u32 *pixel = (u32 *)row + x_min;
-    for (i32 x = x_min; x < x_max; ++x) {
+    u32 *pixel = (u32 *)row + (u32)x_min;
+    for (real32 x = x_min; x < x_max; ++x) {
 
-      *pixel = color;
+      *pixel = triangle_color_interpolate((vec2_t){.x = x, .y = y}, orig_p);
 
       ++pixel;
     }
@@ -328,19 +347,21 @@ INTERNAL void render_triangles(game_offscreen_buffer_t *offscreen_buffer,
     }
   }
 
-  render_triangle(offscreen_buffer, game_state,
-      &(triangle_t) {
-      .p1 = { -2000, -1000, -2000 },
-      .p2 = {  2000, -1000,  2000 },
-      .p3 = {  2000, -1000, -2000 },
-      }, 0x008888FF);
+  //render_triangle(offscreen_buffer, game_state,
+  //    &(triangle_t) {
+  //    .p1 = { -2000, -1000, -2000 },
+  //    .p2 = {  2000, -1000,  2000 },
+  //    .p3 = {  2000, -1000, -2000 },
+  //    }, 0x008888FF);
 
+  this = 1;
   render_triangle(offscreen_buffer, game_state,
       &(triangle_t) {
       .p1 = { -2000, -1000, -2000 },
       .p2 = { -2000, -1000,  2000 },
       .p3 = {  2000, -1000,  2000 },
       }, 0x008888FF);
+  this = 0;
 
   for (u8 i = 0; i < 20; ++i) {
     render_triangle(offscreen_buffer, game_state,
@@ -545,16 +566,21 @@ void game_update_and_render(game_memory_t           *game_memory,
     game_state->start_samp_total = 48000/3;
 
 
-    game_state->camera.fov = DEG2RAD(60);
+    game_state->camera.fov = DEG2RAD(90);
 
     game_state->camera.position = (vec3_t) { 0, 0, -1000 };
     game_state->camera.velocity = (vec3_t) { 0 };
+    
+    game_state->camera._far  = 10000;
+    game_state->camera._near = 10;
 
     game_state->camera.rotation = (quaternion_t) { .w = 1.0F };
     game_state->camera.rotation_velocity = (vec3_t) { 0 };
 
     game_memory->is_initialized = TRUE;
   }
+
+  game_state->camera.fov = DEG2RAD(120);
 
   game_state->dt = dt;
 

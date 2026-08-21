@@ -1000,7 +1000,7 @@ WinMain(HINSTANCE Instance,
           }
 
           u32 samples_count = bytes_to_write / win32_sound_output.bytes_per_sample;
-          ASSERT(samples_count > 48000);
+          ASSERT(samples_count <= 48000);
 
           game_sound_output_t game_sound_output = {
             .samples_per_sec = win32_sound_output.samples_per_sec,

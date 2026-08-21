@@ -4,243 +4,250 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.7	//
-ASSERT	.\src\game.h	15;"	d
-ASSERT	.\src\game.h	17;"	d
-DEFINE_STUB	.\src\win32.c	73;"	d	file:
-DEG2RAD	.\src\game.h	54;"	d
-EPSILON	.\src\game.h	7;"	d
-FALSE	.\src\game.h	5;"	d
-GAME_UPDATE_HZ	.\src\win32.c	14;"	d	file:
-GB	.\src\game.h	43;"	d
-GLOBAL_VARIABLE	.\src\game.h	11;"	d
-INTERNAL	.\src\game.h	12;"	d
-IS_ZERO	.\src\game.h	39;"	d
-KB	.\src\game.h	41;"	d
-KEY_PRESSED	.\src\game.h	/^  KEY_PRESSED,$/;"	e	enum:game_key_state_e
-KEY_RELEASED	.\src\game.h	/^  KEY_RELEASED,$/;"	e	enum:game_key_state_e
-LOCAL_PERSIST	.\src\game.h	10;"	d
-LOGIC_KEYS_N	.\src\game.h	/^  LOGIC_KEYS_N, $/;"	e	enum:game_key_e
-LOGIC_KEY_ATTACK	.\src\game.h	/^  LOGIC_KEY_ATTACK,$/;"	e	enum:game_key_e
-LOGIC_KEY_BACKWARD	.\src\game.h	/^  LOGIC_KEY_BACKWARD,$/;"	e	enum:game_key_e
-LOGIC_KEY_DEFEND	.\src\game.h	/^  LOGIC_KEY_DEFEND,$/;"	e	enum:game_key_e
-LOGIC_KEY_DOWN	.\src\game.h	/^  LOGIC_KEY_DOWN,$/;"	e	enum:game_key_e
-LOGIC_KEY_FORWARD	.\src\game.h	/^  LOGIC_KEY_FORWARD,$/;"	e	enum:game_key_e
-LOGIC_KEY_HEAL	.\src\game.h	/^  LOGIC_KEY_HEAL,$/;"	e	enum:game_key_e
-LOGIC_KEY_LEFT	.\src\game.h	/^  LOGIC_KEY_LEFT,$/;"	e	enum:game_key_e
-LOGIC_KEY_QUIT	.\src\game.h	/^  LOGIC_KEY_QUIT,$/;"	e	enum:game_key_e
-LOGIC_KEY_RIGHT	.\src\game.h	/^  LOGIC_KEY_RIGHT,$/;"	e	enum:game_key_e
-LOGIC_KEY_ROT_BACKWARD	.\src\game.h	/^  LOGIC_KEY_ROT_BACKWARD,$/;"	e	enum:game_key_e
-LOGIC_KEY_ROT_DOWN	.\src\game.h	/^  LOGIC_KEY_ROT_DOWN,$/;"	e	enum:game_key_e
-LOGIC_KEY_ROT_FORWARD	.\src\game.h	/^  LOGIC_KEY_ROT_FORWARD,$/;"	e	enum:game_key_e
-LOGIC_KEY_ROT_LEFT	.\src\game.h	/^  LOGIC_KEY_ROT_LEFT,$/;"	e	enum:game_key_e
-LOGIC_KEY_ROT_RIGHT	.\src\game.h	/^  LOGIC_KEY_ROT_RIGHT,$/;"	e	enum:game_key_e
-LOGIC_KEY_ROT_UP	.\src\game.h	/^  LOGIC_KEY_ROT_UP,$/;"	e	enum:game_key_e
-LOGIC_KEY_UP	.\src\game.h	/^  LOGIC_KEY_UP,$/;"	e	enum:game_key_e
-MATH_IMPLE	.\src\math.c	3;"	d	file:
-MB	.\src\game.h	42;"	d
-MONITOR_REFRESH_HZ	.\src\win32.c	13;"	d	file:
-MSEC2SEC	.\src\game.h	45;"	d
-MSEC2USEC	.\src\game.h	50;"	d
-PI	.\src\game.h	6;"	d
-PLATFORM	.\src\win32.c	10;"	d	file:
-PLATFORM_API_N	.\src\platform.h	2;"	d
-RAD2DEG	.\src\game.h	53;"	d
-SEC2MSEC	.\src\game.h	49;"	d
-SEC2USEC	.\src\game.h	51;"	d
-SECONDS_PER_FRAME	.\src\win32.c	15;"	d	file:
-SPEED	.\src\game.c	12;"	d	file:
-TRUE	.\src\game.h	4;"	d
-UP	.\src\game.c	11;"	d	file:
-USEC2MSEC	.\src\game.h	46;"	d
-USEC2SEC	.\src\game.h	47;"	d
-USECONDS_PER_FRAME	.\src\win32.c	16;"	d	file:
-WinMain	.\src\win32.c	/^WinMain(HINSTANCE Instance,$/;"	f
-bitmap_memory_size	.\src\game.h	/^  i32   bitmap_memory_size;$/;"	m	struct:__anon7
-bitmap_memory_size	.\src\win32.c	/^  u32         bitmap_memory_size;$/;"	m	struct:__anon10	file:
-bool16	.\src\game.h	/^typedef uint16_t bool16;$/;"	t
-bool32	.\src\game.h	/^typedef uint32_t bool32;$/;"	t
-bool64	.\src\game.h	/^typedef uint64_t bool64;$/;"	t
-bool8	.\src\game.h	/^typedef uint8_t  bool8;$/;"	t
-buffer	.\src\win32.c	/^  LPDIRECTSOUNDBUFFER buffer;$/;"	m	struct:__anon11	file:
-buffer_size	.\src\win32.c	/^  u32                 buffer_size;$/;"	m	struct:__anon11	file:
-bytes_per_pixel	.\src\game.h	/^  i32   bytes_per_pixel;$/;"	m	struct:__anon7
-bytes_per_pixel	.\src\win32.c	/^  u32         bytes_per_pixel;$/;"	m	struct:__anon10	file:
-bytes_per_sample	.\src\win32.c	/^  u32                 bytes_per_sample;$/;"	m	struct:__anon11	file:
-camera	.\src\game.h	/^  } camera;$/;"	m	struct:game_state_t	typeref:struct:game_state_t::__anon8
-color	.\src\game.h	/^  u32        color[20];$/;"	m	struct:game_state_t
-cur_sample	.\src\win32.c	/^  u32                 cur_sample;$/;"	m	struct:__anon11	file:
-direction	.\src\game.h	/^    mat3_t       direction;$/;"	m	struct:game_state_t::__anon8
-dt	.\src\game.h	/^  real32 dt;$/;"	m	struct:game_state_t
-f_inv_step	.\src\game.h	/^  real32 f_inv_step;$/;"	m	struct:game_state_t
-f_step	.\src\game.h	/^  real32 f_step;$/;"	m	struct:game_state_t
-flip_play_cursor	.\src\win32.c	/^  DWORD flip_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
-flip_write_cursor	.\src\win32.c	/^  DWORD flip_write_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
-fov	.\src\game.h	/^    real32 fov;$/;"	m	struct:game_state_t::__anon8
-freq	.\src\game.h	/^  real32 freq;$/;"	m	struct:game_state_t
-game_get_platform	.\src\platform.h	/^void game_get_platform(void **platform_api[PLATFORM_API_N])$/;"	f
-game_get_sound_samples	.\src\game.c	/^void game_get_sound_samples(game_memory_t       *game_memory,$/;"	f
-game_input	.\src\game.c	/^INTERNAL void game_input(game_input_t      *input,$/;"	f
-game_input_t	.\src\game.h	/^typedef struct game_input_t {$/;"	s
-game_input_t	.\src\game.h	/^} game_input_t;$/;"	t	typeref:struct:game_input_t
-game_key_e	.\src\game.h	/^typedef enum game_key_e {$/;"	g
-game_key_e	.\src\game.h	/^} game_key_e;$/;"	t	typeref:enum:game_key_e
-game_key_state_e	.\src\game.h	/^typedef enum game_key_state_e {$/;"	g
-game_key_state_e	.\src\game.h	/^} game_key_state_e;$/;"	t	typeref:enum:game_key_state_e
-game_key_t	.\src\game.h	/^typedef struct game_key_t {$/;"	s
-game_key_t	.\src\game.h	/^} game_key_t;$/;"	t	typeref:struct:game_key_t
-game_memory_t	.\src\game.h	/^typedef struct game_memory_t {$/;"	s
-game_memory_t	.\src\game.h	/^} game_memory_t;$/;"	t	typeref:struct:game_memory_t
-game_offscreen_buffer_t	.\src\game.h	/^} game_offscreen_buffer_t;$/;"	t	typeref:struct:__anon7
-game_output_sound	.\src\game.c	/^INTERNAL void game_output_sound(game_sound_output_t *sound_buffer,$/;"	f
-game_sound_output_t	.\src\game.h	/^typedef struct game_sound_output_t {$/;"	s
-game_sound_output_t	.\src\game.h	/^} game_sound_output_t;$/;"	t	typeref:struct:game_sound_output_t
-game_state_t	.\src\game.h	/^typedef struct game_state_t {$/;"	s
-game_state_t	.\src\game.h	/^} game_state_t;$/;"	t	typeref:struct:game_state_t
-game_time_t	.\src\game.h	/^typedef u64 game_time_t;$/;"	t
-game_update_and_render	.\src\game.c	/^void game_update_and_render(game_memory_t           *game_memory,$/;"	f
-height	.\src\game.h	/^  i32   height;$/;"	m	struct:__anon7
-height	.\src\win32.c	/^  int height;$/;"	m	struct:__anon9	file:
-height	.\src\win32.c	/^  u32         height;$/;"	m	struct:__anon10	file:
-i	.\src\game.h	/^  struct { real32 i; real32 j; real32 k; };$/;"	m	struct:quaternion_t::__anon5
-i16	.\src\game.h	/^typedef int16_t i16;$/;"	t
-i32	.\src\game.h	/^typedef int32_t i32;$/;"	t
-i64	.\src\game.h	/^typedef int64_t i64;$/;"	t
-i8	.\src\game.h	/^typedef int8_t  i8;$/;"	t
-info	.\src\win32.c	/^  BITMAPINFO  info;$/;"	m	struct:__anon10	file:
-is_initialized	.\src\game.h	/^  bool32  is_initialized;$/;"	m	struct:game_memory_t
-j	.\src\game.h	/^  struct { real32 i; real32 j; real32 k; };$/;"	m	struct:quaternion_t::__anon5
-k	.\src\game.h	/^  struct { real32 i; real32 j; real32 k; };$/;"	m	struct:quaternion_t::__anon5
-keys	.\src\game.h	/^  game_key_t keys[LOGIC_KEYS_N];$/;"	m	struct:game_input_t
-m	.\src\game.h	/^  real32 m[2][2];$/;"	m	union:mat2_t
-m	.\src\game.h	/^  real32 m[3][3];$/;"	m	union:mat3_t
-m	.\src\game.h	/^  real32 m[4][4];$/;"	m	union:mat4_t
-mat2_t	.\src\game.h	/^typedef union mat2_t {$/;"	u
-mat2_t	.\src\game.h	/^} mat2_t;$/;"	t	typeref:union:mat2_t
-mat3_t	.\src\game.h	/^typedef union mat3_t {$/;"	u
-mat3_t	.\src\game.h	/^} mat3_t;$/;"	t	typeref:union:mat3_t
-mat4_t	.\src\game.h	/^typedef union mat4_t {$/;"	u
-mat4_t	.\src\game.h	/^} mat4_t;$/;"	t	typeref:union:mat4_t
-math_cross_prod	.\src\math.c	/^INTERNAL inline vec3_t math_cross_prod(vec3_t v1, vec3_t v2)$/;"	f
-math_pitch_mat	.\src\math.c	/^INTERNAL mat3_t math_pitch_mat(real32 pitch)$/;"	f
-math_quaternion	.\src\math.c	/^INTERNAL quaternion_t math_quaternion(vec3_t axis, real32 angle)$/;"	f
-math_quaternion_mul	.\src\math.c	/^INTERNAL quaternion_t math_quaternion_mul(quaternion_t q1, quaternion_t q2)$/;"	f
-math_quaternion_rotate	.\src\math.c	/^INTERNAL vec3_t math_quaternion_rotate(quaternion_t q, vec3_t v)$/;"	f
-math_roll_mat	.\src\math.c	/^INTERNAL mat3_t math_roll_mat(real32 roll)$/;"	f
-math_triangle_center	.\src\math.c	/^INTERNAL vec3_t math_triangle_center(triangle_t *triangle)$/;"	f
-math_triangle_norm	.\src\math.c	/^INTERNAL vec3_t math_triangle_norm(triangle_t *triangle)$/;"	f
-math_yaw_mat	.\src\math.c	/^INTERNAL mat3_t math_yaw_mat(real32 yaw)$/;"	f
-memory	.\src\game.h	/^  void *memory;$/;"	m	struct:__anon7
-memory	.\src\win32.c	/^  void *      memory;$/;"	m	struct:__anon10	file:
-output_byte_count	.\src\win32.c	/^  DWORD output_byte_count;$/;"	m	struct:win32_debug_sound_marker_t	file:
-output_location	.\src\win32.c	/^  DWORD output_location;$/;"	m	struct:win32_debug_sound_marker_t	file:
-output_next_play_cursor	.\src\win32.c	/^  DWORD output_next_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
-output_play_cursor	.\src\win32.c	/^  DWORD output_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
-output_write_cursor	.\src\win32.c	/^  DWORD output_write_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
-p1	.\src\game.h	/^  vec3_t p1;$/;"	m	struct:triangle_t
-p2	.\src\game.h	/^  vec3_t p2;$/;"	m	struct:triangle_t
-p3	.\src\game.h	/^  vec3_t p3;$/;"	m	struct:triangle_t
-permanent_storage	.\src\game.h	/^  u8     *permanent_storage;$/;"	m	struct:game_memory_t
-permanent_storage_size	.\src\game.h	/^  u64     permanent_storage_size;$/;"	m	struct:game_memory_t
-pitch	.\src\game.h	/^  i32   pitch;$/;"	m	struct:__anon7
-pitch	.\src\win32.c	/^  u32         pitch;$/;"	m	struct:__anon10	file:
-platform_DEBUG_free_file_memory_f	.\src\platform.h	/^void   (*platform_DEBUG_free_file_memory_f) (void *memory);$/;"	v
-platform_DEBUG_read_entire_file_f	.\src\platform.h	/^void  *(*platform_DEBUG_read_entire_file_f) (char *file_name, u32 *file_size);$/;"	v
-platform_DEBUG_write_entire_file_f	.\src\platform.h	/^bool32 (*platform_DEBUG_write_entire_file_f)(char *filename, u32 memory_size, void *memory);$/;"	v
-platform_get_clock_f	.\src\platform.h	/^game_time_t (*platform_get_clock_f)(void);$/;"	v
-position	.\src\game.h	/^    vec3_t position;$/;"	m	struct:game_state_t::__anon8
-press_rel	.\src\game.h	/^  u8 press_rel;$/;"	m	struct:game_key_t
-press_rel	.\src\win32.c	/^  u8  press_rel[LOGIC_KEYS_N];$/;"	m	struct:win32_input_t	file:
-prev_input	.\src\game.h	/^  game_input_t prev_input;$/;"	m	struct:game_state_t
-quaternion_t	.\src\game.h	/^typedef union quaternion_t {$/;"	u
-real32	.\src\game.h	/^typedef float    real32;$/;"	t
-real64	.\src\game.h	/^typedef double   real64;$/;"	t
-render_background	.\src\game.c	/^INTERNAL void render_background(game_offscreen_buffer_t *offscreen_buffer,$/;"	f
-render_triangle	.\src\game.c	/^INTERNAL void render_triangle(game_offscreen_buffer_t *offscreen_buffer,$/;"	f
-render_triangles	.\src\game.c	/^INTERNAL void render_triangles(game_offscreen_buffer_t *offscreen_buffer,$/;"	f
-rotation	.\src\game.h	/^    quaternion_t rotation;$/;"	m	struct:game_state_t::__anon8
-rotation_velocity	.\src\game.h	/^    vec3_t       rotation_velocity;$/;"	m	struct:game_state_t::__anon8
-running	.\src\game.h	/^  bool32 running;$/;"	m	struct:game_state_t
-running	.\src\win32.c	/^GLOBAL_VARIABLE bool32 running;$/;"	v
-safety_samples_bytes	.\src\win32.c	/^  u32                 safety_samples_bytes;$/;"	m	struct:__anon11	file:
-samples	.\src\game.h	/^  i16 *samples;$/;"	m	struct:game_sound_output_t
-samples_count	.\src\game.h	/^  u32  samples_count;$/;"	m	struct:game_sound_output_t
-samples_per_sec	.\src\game.h	/^  i32  samples_per_sec;$/;"	m	struct:game_sound_output_t
-samples_per_sec	.\src\win32.c	/^  u32                 samples_per_sec;$/;"	m	struct:__anon11	file:
-start	.\src\game.h	/^  bool32 start;$/;"	m	struct:game_state_t
-start_samp_count	.\src\game.h	/^  bool32 start_samp_count;$/;"	m	struct:game_state_t
-start_samp_total	.\src\game.h	/^  bool32 start_samp_total;$/;"	m	struct:game_state_t
-string_cat	.\src\win32.c	/^INTERNAL void string_cat(char *src1, u32 src1_len,$/;"	f
-t	.\src\game.h	/^  real32 t;$/;"	m	struct:game_state_t
-t_step	.\src\game.h	/^  real32 t_step;$/;"	m	struct:game_state_t
-transient_storage	.\src\game.h	/^  u8     *transient_storage;$/;"	m	struct:game_memory_t
-transient_storage_size	.\src\game.h	/^  u64     transient_storage_size;$/;"	m	struct:game_memory_t
-triangle	.\src\game.h	/^  triangle_t triangle[20];$/;"	m	struct:game_state_t
-triangle_t	.\src\game.h	/^typedef struct triangle_t {$/;"	s
-triangle_t	.\src\game.h	/^} triangle_t;$/;"	t	typeref:struct:triangle_t
-u16	.\src\game.h	/^typedef uint16_t u16;$/;"	t
-u32	.\src\game.h	/^typedef uint32_t u32;$/;"	t
-u64	.\src\game.h	/^typedef uint64_t u64;$/;"	t
-u8	.\src\game.h	/^typedef uint8_t  u8;$/;"	t
-update_camera	.\src\game.c	/^INTERNAL void update_camera(game_state_t *game_state)$/;"	f
-v	.\src\game.h	/^  real32 v[2];$/;"	m	union:vec2_t
-v	.\src\game.h	/^  real32 v[3];$/;"	m	union:vec3_t
-v	.\src\game.h	/^  real32 v[4];$/;"	m	union:quaternion_t
-v	.\src\game.h	/^  real32 v[4];$/;"	m	union:vec4_t
-v	.\src\game.h	/^  struct { vec3_t v; real32 w; };$/;"	m	struct:quaternion_t::__anon6
-v	.\src\game.h	/^  vec2_t v[2];$/;"	m	union:mat2_t
-v	.\src\game.h	/^  vec3_t v[3];$/;"	m	union:mat3_t
-v	.\src\game.h	/^  vec4_t v[4];$/;"	m	union:mat4_t
-vec2_t	.\src\game.h	/^typedef union vec2_t {$/;"	u
-vec2_t	.\src\game.h	/^} vec2_t;$/;"	t	typeref:union:vec2_t
-vec3_t	.\src\game.h	/^typedef union vec3_t {$/;"	u
-vec3_t	.\src\game.h	/^} vec3_t;$/;"	t	typeref:union:vec3_t
-vec4_t	.\src\game.h	/^typedef union vec4_t {$/;"	u
-vec4_t	.\src\game.h	/^} vec4_t;$/;"	t	typeref:union:vec4_t
-velocity	.\src\game.h	/^    vec3_t velocity;$/;"	m	struct:game_state_t::__anon8
-vk_code	.\src\win32.c	/^  u32 vk_code[LOGIC_KEYS_N];$/;"	m	struct:win32_input_t	file:
-volume	.\src\game.h	/^  real32 volume;$/;"	m	struct:game_state_t
-w	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; real32 w; };$/;"	m	struct:vec4_t::__anon3
-w	.\src\game.h	/^  struct { vec3_t v; real32 w; };$/;"	m	struct:quaternion_t::__anon6
-width	.\src\game.h	/^  i32   width;$/;"	m	struct:__anon7
-width	.\src\win32.c	/^  int width;$/;"	m	struct:__anon9	file:
-width	.\src\win32.c	/^  u32         width;$/;"	m	struct:__anon10	file:
-win32_DEBUG_draw_rect	.\src\win32.c	/^win32_DEBUG_draw_rect(win32_offscreen_buffer_t *offscreen_buffer,$/;"	f
-win32_DEBUG_draw_vertical	.\src\win32.c	/^win32_DEBUG_draw_vertical(win32_offscreen_buffer_t *offscreen_buffer,$/;"	f
-win32_DEBUG_free_file_memory	.\src\win32.c	/^void win32_DEBUG_free_file_memory(void *memory)$/;"	f
-win32_DEBUG_read_entire_file	.\src\win32.c	/^void *win32_DEBUG_read_entire_file(char *file_name, u32 *file_size)$/;"	f
-win32_DEBUG_sound_sync	.\src\win32.c	/^win32_DEBUG_sound_sync(win32_offscreen_buffer_t   *offscreen_buffer,$/;"	f
-win32_DEBUG_write_entire_file	.\src\win32.c	/^bool32 win32_DEBUG_write_entire_file(char *file_name,$/;"	f
-win32_clear_sound_buffer	.\src\win32.c	/^win32_clear_sound_buffer(void)$/;"	f
-win32_debug_sound_marker_t	.\src\win32.c	/^typedef struct win32_debug_sound_marker_t {$/;"	s	file:
-win32_debug_sound_marker_t	.\src\win32.c	/^} win32_debug_sound_marker_t;$/;"	t	typeref:struct:win32_debug_sound_marker_t	file:
-win32_display_buffer_in_window	.\src\win32.c	/^win32_display_buffer_in_window(HDC                       device_ctx,$/;"	f
-win32_fill_sound_buffer	.\src\win32.c	/^win32_fill_sound_buffer(game_sound_output_t *game_sound_output,$/;"	f
-win32_get_clock	.\src\win32.c	/^game_time_t win32_get_clock(void)$/;"	f
-win32_get_last_write_time	.\src\win32.c	/^INTERNAL inline FILETIME win32_get_last_write_time(char *file_name)$/;"	f
-win32_get_window_dimension	.\src\win32.c	/^win32_get_window_dimension(HWND window)$/;"	f
-win32_init_dsound	.\src\win32.c	/^INTERNAL void win32_init_dsound(HWND window,$/;"	f
-win32_init_input	.\src\win32.c	/^INTERNAL void win32_init_input(win32_input_t *win32_input)$/;"	f
-win32_input_t	.\src\win32.c	/^typedef struct win32_input_t {$/;"	s	file:
-win32_input_t	.\src\win32.c	/^} win32_input_t;$/;"	t	typeref:struct:win32_input_t	file:
-win32_main_window_callback	.\src\win32.c	/^win32_main_window_callback(HWND   window,$/;"	f
-win32_offscreen_buffer	.\src\win32.c	/^GLOBAL_VARIABLE win32_offscreen_buffer_t win32_offscreen_buffer;$/;"	v
-win32_offscreen_buffer_t	.\src\win32.c	/^} win32_offscreen_buffer_t;$/;"	t	typeref:struct:__anon10	file:
-win32_performence_frequency	.\src\win32.c	/^GLOBAL_VARIABLE u64 win32_performence_frequency;$/;"	v
-win32_read_input	.\src\win32.c	/^win32_read_input(win32_input_t *win32_input)$/;"	f
-win32_reload_game	.\src\win32.c	/^INTERNAL void win32_reload_game(void)$/;"	f
-win32_resize_DIB_section	.\src\win32.c	/^win32_resize_DIB_section(win32_offscreen_buffer_t *offset_buffer,$/;"	f
-win32_set_query_performence_frequency	.\src\win32.c	/^win32_set_query_performence_frequency(void)$/;"	f
-win32_sound_output	.\src\win32.c	/^GLOBAL_VARIABLE win32_sound_output_t win32_sound_output;$/;"	v
-win32_sound_output_t	.\src\win32.c	/^} win32_sound_output_t;$/;"	t	typeref:struct:__anon11	file:
-win32_window_dimension_t	.\src\win32.c	/^} win32_window_dimension_t;$/;"	t	typeref:struct:__anon9	file:
-x	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; real32 w; };$/;"	m	struct:vec4_t::__anon3
-x	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:quaternion_t::__anon4
-x	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:vec3_t::__anon2
-x	.\src\game.h	/^  struct { real32 x; real32 y; };$/;"	m	struct:vec2_t::__anon1
-y	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; real32 w; };$/;"	m	struct:vec4_t::__anon3
-y	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:quaternion_t::__anon4
-y	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:vec3_t::__anon2
-y	.\src\game.h	/^  struct { real32 x; real32 y; };$/;"	m	struct:vec2_t::__anon1
-z	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; real32 w; };$/;"	m	struct:vec4_t::__anon3
-z	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:quaternion_t::__anon4
-z	.\src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:vec3_t::__anon2
+A	src\math.c	97;"	d	file:
+ASSERT	src\game.h	15;"	d
+ASSERT	src\game.h	17;"	d
+B	src\math.c	98;"	d	file:
+C	src\math.c	99;"	d	file:
+DEFINE_STUB	src\win32.c	73;"	d	file:
+DEG2RAD	src\game.h	54;"	d
+EPSILON	src\game.h	7;"	d
+FALSE	src\game.h	5;"	d
+GAME_UPDATE_HZ	src\win32.c	14;"	d	file:
+GB	src\game.h	43;"	d
+GLOBAL_VARIABLE	src\game.h	11;"	d
+INTERNAL	src\game.h	12;"	d
+IS_ZERO	src\game.h	39;"	d
+KB	src\game.h	41;"	d
+KEY_PRESSED	src\game.h	/^  KEY_PRESSED,$/;"	e	enum:game_key_state_e
+KEY_RELEASED	src\game.h	/^  KEY_RELEASED,$/;"	e	enum:game_key_state_e
+LOCAL_PERSIST	src\game.h	10;"	d
+LOGIC_KEYS_N	src\game.h	/^  LOGIC_KEYS_N, $/;"	e	enum:game_key_e
+LOGIC_KEY_ATTACK	src\game.h	/^  LOGIC_KEY_ATTACK,$/;"	e	enum:game_key_e
+LOGIC_KEY_BACKWARD	src\game.h	/^  LOGIC_KEY_BACKWARD,$/;"	e	enum:game_key_e
+LOGIC_KEY_DEFEND	src\game.h	/^  LOGIC_KEY_DEFEND,$/;"	e	enum:game_key_e
+LOGIC_KEY_DOWN	src\game.h	/^  LOGIC_KEY_DOWN,$/;"	e	enum:game_key_e
+LOGIC_KEY_FORWARD	src\game.h	/^  LOGIC_KEY_FORWARD,$/;"	e	enum:game_key_e
+LOGIC_KEY_HEAL	src\game.h	/^  LOGIC_KEY_HEAL,$/;"	e	enum:game_key_e
+LOGIC_KEY_LEFT	src\game.h	/^  LOGIC_KEY_LEFT,$/;"	e	enum:game_key_e
+LOGIC_KEY_QUIT	src\game.h	/^  LOGIC_KEY_QUIT,$/;"	e	enum:game_key_e
+LOGIC_KEY_RIGHT	src\game.h	/^  LOGIC_KEY_RIGHT,$/;"	e	enum:game_key_e
+LOGIC_KEY_ROT_BACKWARD	src\game.h	/^  LOGIC_KEY_ROT_BACKWARD,$/;"	e	enum:game_key_e
+LOGIC_KEY_ROT_DOWN	src\game.h	/^  LOGIC_KEY_ROT_DOWN,$/;"	e	enum:game_key_e
+LOGIC_KEY_ROT_FORWARD	src\game.h	/^  LOGIC_KEY_ROT_FORWARD,$/;"	e	enum:game_key_e
+LOGIC_KEY_ROT_LEFT	src\game.h	/^  LOGIC_KEY_ROT_LEFT,$/;"	e	enum:game_key_e
+LOGIC_KEY_ROT_RIGHT	src\game.h	/^  LOGIC_KEY_ROT_RIGHT,$/;"	e	enum:game_key_e
+LOGIC_KEY_ROT_UP	src\game.h	/^  LOGIC_KEY_ROT_UP,$/;"	e	enum:game_key_e
+LOGIC_KEY_UP	src\game.h	/^  LOGIC_KEY_UP,$/;"	e	enum:game_key_e
+MATH_IMPL	src\math.c	3;"	d	file:
+MB	src\game.h	42;"	d
+MONITOR_REFRESH_HZ	src\win32.c	13;"	d	file:
+MSEC2SEC	src\game.h	45;"	d
+MSEC2USEC	src\game.h	50;"	d
+PI	src\game.h	6;"	d
+PLATFORM	src\win32.c	10;"	d	file:
+PLATFORM_API_N	src\platform.h	2;"	d
+RAD2DEG	src\game.h	53;"	d
+SEC2MSEC	src\game.h	49;"	d
+SEC2USEC	src\game.h	51;"	d
+SECONDS_PER_FRAME	src\win32.c	15;"	d	file:
+SPEED	src\game.c	12;"	d	file:
+TRUE	src\game.h	4;"	d
+UP	src\game.c	11;"	d	file:
+USEC2MSEC	src\game.h	46;"	d
+USEC2SEC	src\game.h	47;"	d
+USECONDS_PER_FRAME	src\win32.c	16;"	d	file:
+WinMain	src\win32.c	/^WinMain(HINSTANCE Instance,$/;"	f
+_far	src\game.h	/^    real32 _far;$/;"	m	struct:game_state_t::__anon8
+_near	src\game.h	/^    real32 _near;$/;"	m	struct:game_state_t::__anon8
+bitmap_memory_size	src\game.h	/^  i32   bitmap_memory_size;$/;"	m	struct:__anon7
+bitmap_memory_size	src\win32.c	/^  u32         bitmap_memory_size;$/;"	m	struct:__anon10	file:
+bool16	src\game.h	/^typedef uint16_t bool16;$/;"	t
+bool32	src\game.h	/^typedef uint32_t bool32;$/;"	t
+bool64	src\game.h	/^typedef uint64_t bool64;$/;"	t
+bool8	src\game.h	/^typedef uint8_t  bool8;$/;"	t
+buffer	src\win32.c	/^  LPDIRECTSOUNDBUFFER buffer;$/;"	m	struct:__anon11	file:
+buffer_size	src\win32.c	/^  u32                 buffer_size;$/;"	m	struct:__anon11	file:
+bytes_per_pixel	src\game.h	/^  i32   bytes_per_pixel;$/;"	m	struct:__anon7
+bytes_per_pixel	src\win32.c	/^  u32         bytes_per_pixel;$/;"	m	struct:__anon10	file:
+bytes_per_sample	src\win32.c	/^  u32                 bytes_per_sample;$/;"	m	struct:__anon11	file:
+camera	src\game.h	/^  } camera;$/;"	m	struct:game_state_t	typeref:struct:game_state_t::__anon8
+color	src\game.h	/^  u32        color[20];$/;"	m	struct:game_state_t
+cur_sample	src\win32.c	/^  u32                 cur_sample;$/;"	m	struct:__anon11	file:
+dt	src\game.h	/^  real32 dt;$/;"	m	struct:game_state_t
+f_inv_step	src\game.h	/^  real32 f_inv_step;$/;"	m	struct:game_state_t
+f_step	src\game.h	/^  real32 f_step;$/;"	m	struct:game_state_t
+flip_play_cursor	src\win32.c	/^  DWORD flip_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+flip_write_cursor	src\win32.c	/^  DWORD flip_write_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+fov	src\game.h	/^    real32 fov;$/;"	m	struct:game_state_t::__anon8
+freq	src\game.h	/^  real32 freq;$/;"	m	struct:game_state_t
+game_get_platform	src\platform.h	/^void game_get_platform(void **platform_api[PLATFORM_API_N])$/;"	f
+game_get_sound_samples	src\game.c	/^void game_get_sound_samples(game_memory_t       *game_memory,$/;"	f
+game_input	src\game.c	/^INTERNAL void game_input(game_input_t      *input,$/;"	f
+game_input_t	src\game.h	/^typedef struct game_input_t {$/;"	s
+game_input_t	src\game.h	/^} game_input_t;$/;"	t	typeref:struct:game_input_t
+game_key_e	src\game.h	/^typedef enum game_key_e {$/;"	g
+game_key_e	src\game.h	/^} game_key_e;$/;"	t	typeref:enum:game_key_e
+game_key_state_e	src\game.h	/^typedef enum game_key_state_e {$/;"	g
+game_key_state_e	src\game.h	/^} game_key_state_e;$/;"	t	typeref:enum:game_key_state_e
+game_key_t	src\game.h	/^typedef struct game_key_t {$/;"	s
+game_key_t	src\game.h	/^} game_key_t;$/;"	t	typeref:struct:game_key_t
+game_memory_t	src\game.h	/^typedef struct game_memory_t {$/;"	s
+game_memory_t	src\game.h	/^} game_memory_t;$/;"	t	typeref:struct:game_memory_t
+game_offscreen_buffer_t	src\game.h	/^} game_offscreen_buffer_t;$/;"	t	typeref:struct:__anon7
+game_output_sound	src\game.c	/^INTERNAL void game_output_sound(game_sound_output_t *sound_buffer,$/;"	f
+game_sound_output_t	src\game.h	/^typedef struct game_sound_output_t {$/;"	s
+game_sound_output_t	src\game.h	/^} game_sound_output_t;$/;"	t	typeref:struct:game_sound_output_t
+game_state_t	src\game.h	/^typedef struct game_state_t {$/;"	s
+game_state_t	src\game.h	/^} game_state_t;$/;"	t	typeref:struct:game_state_t
+game_time_t	src\game.h	/^typedef u64 game_time_t;$/;"	t
+game_update_and_render	src\game.c	/^void game_update_and_render(game_memory_t           *game_memory,$/;"	f
+height	src\game.h	/^  i32   height;$/;"	m	struct:__anon7
+height	src\win32.c	/^  int height;$/;"	m	struct:__anon9	file:
+height	src\win32.c	/^  u32         height;$/;"	m	struct:__anon10	file:
+i	src\game.h	/^  struct { real32 i; real32 j; real32 k; };$/;"	m	struct:quaternion_t::__anon5
+i16	src\game.h	/^typedef int16_t i16;$/;"	t
+i32	src\game.h	/^typedef int32_t i32;$/;"	t
+i64	src\game.h	/^typedef int64_t i64;$/;"	t
+i8	src\game.h	/^typedef int8_t  i8;$/;"	t
+info	src\win32.c	/^  BITMAPINFO  info;$/;"	m	struct:__anon10	file:
+is_initialized	src\game.h	/^  bool32  is_initialized;$/;"	m	struct:game_memory_t
+j	src\game.h	/^  struct { real32 i; real32 j; real32 k; };$/;"	m	struct:quaternion_t::__anon5
+k	src\game.h	/^  struct { real32 i; real32 j; real32 k; };$/;"	m	struct:quaternion_t::__anon5
+keys	src\game.h	/^  game_key_t keys[LOGIC_KEYS_N];$/;"	m	struct:game_input_t
+m	src\game.h	/^  real32 m[2][2];$/;"	m	union:mat2_t
+m	src\game.h	/^  real32 m[3][3];$/;"	m	union:mat3_t
+m	src\game.h	/^  real32 m[4][4];$/;"	m	union:mat4_t
+mat2_t	src\game.h	/^typedef union mat2_t {$/;"	u
+mat2_t	src\game.h	/^} mat2_t;$/;"	t	typeref:union:mat2_t
+mat3_t	src\game.h	/^typedef union mat3_t {$/;"	u
+mat3_t	src\game.h	/^} mat3_t;$/;"	t	typeref:union:mat3_t
+mat4_t	src\game.h	/^typedef union mat4_t {$/;"	u
+mat4_t	src\game.h	/^} mat4_t;$/;"	t	typeref:union:mat4_t
+math_cross_prod	src\math.c	/^inline vec3_t math_cross_prod(vec3_t v1, vec3_t v2)$/;"	f
+math_pitch_mat	src\math.c	/^mat3_t math_pitch_mat(real32 pitch)$/;"	f
+math_quaternion	src\math.c	/^quaternion_t math_quaternion(vec3_t axis, real32 angle)$/;"	f
+math_quaternion_mul	src\math.c	/^quaternion_t math_quaternion_mul(quaternion_t q1, quaternion_t q2)$/;"	f
+math_quaternion_rotate	src\math.c	/^vec3_t math_quaternion_rotate(quaternion_t q, vec3_t v)$/;"	f
+math_quaternion_rotate_inv	src\math.c	/^vec3_t math_quaternion_rotate_inv(quaternion_t q, vec3_t v)$/;"	f
+math_roll_mat	src\math.c	/^mat3_t math_roll_mat(real32 roll)$/;"	f
+math_triangle_center	src\math.c	/^vec3_t math_triangle_center(triangle_t *triangle)$/;"	f
+math_triangle_norm	src\math.c	/^vec3_t math_triangle_norm(triangle_t *triangle)$/;"	f
+math_yaw_mat	src\math.c	/^mat3_t math_yaw_mat(real32 yaw)$/;"	f
+memory	src\game.h	/^  void *memory;$/;"	m	struct:__anon7
+memory	src\win32.c	/^  void *      memory;$/;"	m	struct:__anon10	file:
+output_byte_count	src\win32.c	/^  DWORD output_byte_count;$/;"	m	struct:win32_debug_sound_marker_t	file:
+output_location	src\win32.c	/^  DWORD output_location;$/;"	m	struct:win32_debug_sound_marker_t	file:
+output_next_play_cursor	src\win32.c	/^  DWORD output_next_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+output_play_cursor	src\win32.c	/^  DWORD output_play_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+output_write_cursor	src\win32.c	/^  DWORD output_write_cursor;$/;"	m	struct:win32_debug_sound_marker_t	file:
+p1	src\game.h	/^  vec3_t p1;$/;"	m	struct:triangle_t
+p2	src\game.h	/^  vec3_t p2;$/;"	m	struct:triangle_t
+p3	src\game.h	/^  vec3_t p3;$/;"	m	struct:triangle_t
+permanent_storage	src\game.h	/^  u8     *permanent_storage;$/;"	m	struct:game_memory_t
+permanent_storage_size	src\game.h	/^  u64     permanent_storage_size;$/;"	m	struct:game_memory_t
+pitch	src\game.h	/^  i32   pitch;$/;"	m	struct:__anon7
+pitch	src\win32.c	/^  u32         pitch;$/;"	m	struct:__anon10	file:
+platform_DEBUG_free_file_memory_f	src\platform.h	/^void   (*platform_DEBUG_free_file_memory_f) (void *memory);$/;"	v
+platform_DEBUG_read_entire_file_f	src\platform.h	/^void  *(*platform_DEBUG_read_entire_file_f) (char *file_name, u32 *file_size);$/;"	v
+platform_DEBUG_write_entire_file_f	src\platform.h	/^bool32 (*platform_DEBUG_write_entire_file_f)(char *filename, u32 memory_size, void *memory);$/;"	v
+platform_get_clock_f	src\platform.h	/^game_time_t (*platform_get_clock_f)(void);$/;"	v
+position	src\game.h	/^    vec3_t position;$/;"	m	struct:game_state_t::__anon8
+press_rel	src\game.h	/^  u8 press_rel;$/;"	m	struct:game_key_t
+press_rel	src\win32.c	/^  u8  press_rel[LOGIC_KEYS_N];$/;"	m	struct:win32_input_t	file:
+prev_input	src\game.h	/^  game_input_t prev_input;$/;"	m	struct:game_state_t
+quaternion_t	src\game.h	/^typedef union quaternion_t {$/;"	u
+quaternion_t	src\game.h	/^} quaternion_t;$/;"	t	typeref:union:quaternion_t
+real32	src\game.h	/^typedef float    real32;$/;"	t
+real64	src\game.h	/^typedef double   real64;$/;"	t
+render_background	src\game.c	/^INTERNAL void render_background(game_offscreen_buffer_t *offscreen_buffer,$/;"	f
+render_triangle	src\game.c	/^INTERNAL void render_triangle(game_offscreen_buffer_t *offscreen_buffer,$/;"	f
+render_triangles	src\game.c	/^INTERNAL void render_triangles(game_offscreen_buffer_t *offscreen_buffer,$/;"	f
+rotation	src\game.h	/^    quaternion_t rotation;$/;"	m	struct:game_state_t::__anon8
+rotation_velocity	src\game.h	/^    vec3_t       rotation_velocity;$/;"	m	struct:game_state_t::__anon8
+running	src\game.h	/^  bool32 running;$/;"	m	struct:game_state_t
+running	src\win32.c	/^GLOBAL_VARIABLE bool32 running;$/;"	v
+safety_samples_bytes	src\win32.c	/^  u32                 safety_samples_bytes;$/;"	m	struct:__anon11	file:
+samples	src\game.h	/^  i16 *samples;$/;"	m	struct:game_sound_output_t
+samples_count	src\game.h	/^  u32  samples_count;$/;"	m	struct:game_sound_output_t
+samples_per_sec	src\game.h	/^  i32  samples_per_sec;$/;"	m	struct:game_sound_output_t
+samples_per_sec	src\win32.c	/^  u32                 samples_per_sec;$/;"	m	struct:__anon11	file:
+start	src\game.h	/^  bool32 start;$/;"	m	struct:game_state_t
+start_samp_count	src\game.h	/^  bool32 start_samp_count;$/;"	m	struct:game_state_t
+start_samp_total	src\game.h	/^  bool32 start_samp_total;$/;"	m	struct:game_state_t
+string_cat	src\win32.c	/^INTERNAL void string_cat(char *src1, u32 src1_len,$/;"	f
+t	src\game.h	/^  real32 t;$/;"	m	struct:game_state_t
+t_step	src\game.h	/^  real32 t_step;$/;"	m	struct:game_state_t
+this	src\game.c	/^GLOBAL_VARIABLE u8 this;$/;"	v
+transient_storage	src\game.h	/^  u8     *transient_storage;$/;"	m	struct:game_memory_t
+transient_storage_size	src\game.h	/^  u64     transient_storage_size;$/;"	m	struct:game_memory_t
+triangle	src\game.h	/^  triangle_t triangle[20];$/;"	m	struct:game_state_t
+triangle_color_interpolate	src\math.c	/^u32 triangle_color_interpolate(vec2_t p, vec2_t t[3])$/;"	f
+triangle_t	src\game.h	/^typedef struct triangle_t {$/;"	s
+triangle_t	src\game.h	/^} triangle_t;$/;"	t	typeref:struct:triangle_t
+u16	src\game.h	/^typedef uint16_t u16;$/;"	t
+u32	src\game.h	/^typedef uint32_t u32;$/;"	t
+u64	src\game.h	/^typedef uint64_t u64;$/;"	t
+u8	src\game.h	/^typedef uint8_t  u8;$/;"	t
+update_camera	src\game.c	/^INTERNAL void update_camera(game_state_t *game_state)$/;"	f
+v	src\game.h	/^  real32 v[2];$/;"	m	union:vec2_t
+v	src\game.h	/^  real32 v[3];$/;"	m	union:vec3_t
+v	src\game.h	/^  real32 v[4];$/;"	m	union:vec4_t
+v	src\game.h	/^  struct { vec3_t v; real32 w; };$/;"	m	struct:quaternion_t::__anon6
+v	src\game.h	/^  vec2_t v[2];$/;"	m	union:mat2_t
+v	src\game.h	/^  vec3_t v[3];$/;"	m	union:mat3_t
+v	src\game.h	/^  vec4_t v[4];$/;"	m	union:mat4_t
+vec2_t	src\game.h	/^typedef union vec2_t {$/;"	u
+vec2_t	src\game.h	/^} vec2_t;$/;"	t	typeref:union:vec2_t
+vec3_t	src\game.h	/^typedef union vec3_t {$/;"	u
+vec3_t	src\game.h	/^} vec3_t;$/;"	t	typeref:union:vec3_t
+vec4_t	src\game.h	/^typedef union vec4_t {$/;"	u
+vec4_t	src\game.h	/^} vec4_t;$/;"	t	typeref:union:vec4_t
+velocity	src\game.h	/^    vec3_t velocity;$/;"	m	struct:game_state_t::__anon8
+vk_code	src\win32.c	/^  u32 vk_code[LOGIC_KEYS_N];$/;"	m	struct:win32_input_t	file:
+volume	src\game.h	/^  real32 volume;$/;"	m	struct:game_state_t
+w	src\game.h	/^  struct { real32 x; real32 y; real32 z; real32 w; };$/;"	m	struct:vec4_t::__anon3
+w	src\game.h	/^  struct { vec3_t v; real32 w; };$/;"	m	struct:quaternion_t::__anon6
+width	src\game.h	/^  i32   width;$/;"	m	struct:__anon7
+width	src\win32.c	/^  int width;$/;"	m	struct:__anon9	file:
+width	src\win32.c	/^  u32         width;$/;"	m	struct:__anon10	file:
+win32_DEBUG_draw_rect	src\win32.c	/^win32_DEBUG_draw_rect(win32_offscreen_buffer_t *offscreen_buffer,$/;"	f
+win32_DEBUG_draw_vertical	src\win32.c	/^win32_DEBUG_draw_vertical(win32_offscreen_buffer_t *offscreen_buffer,$/;"	f
+win32_DEBUG_free_file_memory	src\win32.c	/^void win32_DEBUG_free_file_memory(void *memory)$/;"	f
+win32_DEBUG_read_entire_file	src\win32.c	/^void *win32_DEBUG_read_entire_file(char *file_name, u32 *file_size)$/;"	f
+win32_DEBUG_sound_sync	src\win32.c	/^win32_DEBUG_sound_sync(win32_offscreen_buffer_t   *offscreen_buffer,$/;"	f
+win32_DEBUG_write_entire_file	src\win32.c	/^bool32 win32_DEBUG_write_entire_file(char *file_name,$/;"	f
+win32_clear_sound_buffer	src\win32.c	/^win32_clear_sound_buffer(void)$/;"	f
+win32_debug_sound_marker_t	src\win32.c	/^typedef struct win32_debug_sound_marker_t {$/;"	s	file:
+win32_debug_sound_marker_t	src\win32.c	/^} win32_debug_sound_marker_t;$/;"	t	typeref:struct:win32_debug_sound_marker_t	file:
+win32_display_buffer_in_window	src\win32.c	/^win32_display_buffer_in_window(HDC                       device_ctx,$/;"	f
+win32_fill_sound_buffer	src\win32.c	/^win32_fill_sound_buffer(game_sound_output_t *game_sound_output,$/;"	f
+win32_get_clock	src\win32.c	/^game_time_t win32_get_clock(void)$/;"	f
+win32_get_last_write_time	src\win32.c	/^INTERNAL inline FILETIME win32_get_last_write_time(char *file_name)$/;"	f
+win32_get_window_dimension	src\win32.c	/^win32_get_window_dimension(HWND window)$/;"	f
+win32_init_dsound	src\win32.c	/^INTERNAL void win32_init_dsound(HWND window,$/;"	f
+win32_init_input	src\win32.c	/^INTERNAL void win32_init_input(win32_input_t *win32_input)$/;"	f
+win32_input_t	src\win32.c	/^typedef struct win32_input_t {$/;"	s	file:
+win32_input_t	src\win32.c	/^} win32_input_t;$/;"	t	typeref:struct:win32_input_t	file:
+win32_main_window_callback	src\win32.c	/^win32_main_window_callback(HWND   window,$/;"	f
+win32_offscreen_buffer	src\win32.c	/^GLOBAL_VARIABLE win32_offscreen_buffer_t win32_offscreen_buffer;$/;"	v
+win32_offscreen_buffer_t	src\win32.c	/^} win32_offscreen_buffer_t;$/;"	t	typeref:struct:__anon10	file:
+win32_performence_frequency	src\win32.c	/^GLOBAL_VARIABLE u64 win32_performence_frequency;$/;"	v
+win32_read_input	src\win32.c	/^win32_read_input(win32_input_t *win32_input)$/;"	f
+win32_reload_game	src\win32.c	/^INTERNAL void win32_reload_game(void)$/;"	f
+win32_resize_DIB_section	src\win32.c	/^win32_resize_DIB_section(win32_offscreen_buffer_t *offset_buffer,$/;"	f
+win32_set_query_performence_frequency	src\win32.c	/^win32_set_query_performence_frequency(void)$/;"	f
+win32_sound_output	src\win32.c	/^GLOBAL_VARIABLE win32_sound_output_t win32_sound_output;$/;"	v
+win32_sound_output_t	src\win32.c	/^} win32_sound_output_t;$/;"	t	typeref:struct:__anon11	file:
+win32_window_dimension_t	src\win32.c	/^} win32_window_dimension_t;$/;"	t	typeref:struct:__anon9	file:
+x	src\game.h	/^  struct { real32 x; real32 y; real32 z; real32 w; };$/;"	m	struct:vec4_t::__anon3
+x	src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:quaternion_t::__anon4
+x	src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:vec3_t::__anon2
+x	src\game.h	/^  struct { real32 x; real32 y; };$/;"	m	struct:vec2_t::__anon1
+y	src\game.h	/^  struct { real32 x; real32 y; real32 z; real32 w; };$/;"	m	struct:vec4_t::__anon3
+y	src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:quaternion_t::__anon4
+y	src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:vec3_t::__anon2
+y	src\game.h	/^  struct { real32 x; real32 y; };$/;"	m	struct:vec2_t::__anon1
+z	src\game.h	/^  struct { real32 x; real32 y; real32 z; real32 w; };$/;"	m	struct:vec4_t::__anon3
+z	src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:quaternion_t::__anon4
+z	src\game.h	/^  struct { real32 x; real32 y; real32 z; };$/;"	m	struct:vec3_t::__anon2
