@@ -1,0 +1,54 @@
+
+.version 7.0
+.target sm_50
+.address_size 64
+
+.visible .entry add_arrays(
+    .param .u64 input_a,
+    .param .u64 input_b,
+    .param .u64 output_c,
+    .param .u64 size)
+{
+    .reg .pred  %p1;
+    .reg .b32   %r1, %r2, %r3;
+    .reg .f32   %f1, %f2, %f3;
+    .reg .b64   %rd1, %rd2, %rd3, %rd4, %rd5, %rd6;
+
+    // 1. Calculate unique thread ID: (blockIdx.x * blockDim.x) + threadIdx.x
+    mov.u32         %r1, %ctaid.x;
+    mov.u32         %r2, %ntid.x;
+    mov.u32         %r3, %tid.x;
+    mad.lo.s32      %r1, %r1, %r2, %r3; // %r1 now holds the index
+
+    // 2. Load the total size boundary
+    ld.param.u32    %r2, [size];
+    setp.ge.s32     %p1, %r1, %r2; // Compare index >= size
+    @%p1 bra        EXIT;          // Out of bounds? Exit thread.
+
+    // 3. Convert 32-bit index to 64-bit byte offset (index * 4 bytes for float)
+    mul.wide.u32    %rd1, %r1, 4;
+
+    // 4. Load address pointers from parameters
+    ld.param.u64    %rd2, [input_a];
+    ld.param.u64    %rd3, [input_b];
+    ld.param.u64    %rd4, [output_c];
+
+    // 5. Calculate final memory addresses (base pointer + offset)
+    add.cc.u64      %rd2, %rd2, %rd1;
+    add.cc.u64      %rd3, %rd3, %rd1;
+    add.cc.u64      %rd4, %rd4, %rd1;
+
+    // 6. Read values from global GPU memory into registers
+    ld.global.f32   %f1, [%rd2];
+    ld.global.f32   %f2, [%rd3];
+
+    // 7. Perform the actual hardware float addition
+    add.f32         %f3, %f1, %f2;
+
+    // 8. Write the result back to global GPU memory
+    st.global.f32   [%rd4], %f3;
+
+EXIT:
+    ret;
+}
+

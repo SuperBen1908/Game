@@ -11,17 +11,17 @@ inline vec_t math_sub_v##N(vec_t v1, vec_t v2)                                  
   vec_t v = { 0 }; for (u8 i = 0; i < N; ++i) v.v[i] = v1.v[i] - v2.v[i]; return v;  \
 }                                                                                    \
                                                                                      \
-inline vec_t math_mul_c_v##N(real32 c, vec_t v)                                      \
+inline vec_t math_mul_c_v##N(r32 c, vec_t v)                                      \
 {                                                                                    \
   for (u8 i = 0; i < N; ++i) v.v[i] *= c; return v;                                  \
 }                                                                                    \
                                                                                      \
-inline real32 math_dot_prod_##N(vec_t v1, vec_t v2)                                  \
+inline r32 math_dot_prod_##N(vec_t v1, vec_t v2)                                  \
 {                                                                                    \
-  real32 s =  0 ; for (u8 i = 0; i < N; ++i) s += v1.v[i]*v2.v[i]; return s;         \
+  r32 s =  0 ; for (u8 i = 0; i < N; ++i) s += v1.v[i]*v2.v[i]; return s;         \
 }                                                                                    \
                                                                                      \
-inline real32 math_norm_v##N(vec_t v)                                                \
+inline r32 math_norm_v##N(vec_t v)                                                \
 {                                                                                    \
   return sqrtf(math_dot_prod_##N(v, v));                                             \
 }                                                                                    \
@@ -92,40 +92,51 @@ vec3_t math_triangle_center(triangle_t *triangle)
 }
 
 
-u32 triangle_color_interpolate(vec2_t p, vec2_t t[3])
+void math_barycentric(r32 x, r32 y, vec2_t t[3], r32 l[3])
 {
 #define A 0
 #define B 1
 #define C 2
-  real32 t0 = (t[A].x - t[C].x)*(t[B].y - t[C].y) + 
-              (t[A].y - t[C].y)*(t[C].x - t[B].x);
+  r32 v0x = t[A].x - t[C].x;
+  r32 v1x = t[B].x - t[C].x;
+  r32 vpx =      x - t[C].x;
 
-  real32 t1 = (p.x - t[C].x)*(t[B].y - t[C].y) + 
-              (p.y - t[C].y)*(t[C].x - t[B].x);
+  r32 v0y = t[A].y - t[C].y;
+  r32 v1y = t[B].y - t[C].y;
+  r32 vpy =      y - t[C].y;
 
-  real32 t2 = (p.y - t[C].y)*(t[A].x - t[C].x) +
-              (p.x - t[C].x)*(t[C].y - t[A].y); 
+  r32 den = v0x*v1y - v1x*v0y;
 
-  real32 l1 = t1 / t0;
-  real32 l2 = t2 / t0;
-  real32 l3 = 1 - l1 - l2;
+  l[0] = (vpx*v1y - v1x*vpy) / den;
+  l[1] = (v0x*vpy - vpx*v0y) / den;
+  l[2] = 1 - l[0] - l[1];
 
-  if (!(l1 > 0 && l2 > 0 && l3 > 0))
-    return (u32)-1;
+  if (l[0] < -0.1 ||
+      l[1] < -0.1 ||
+      l[2] < -0.1 ||
+      l[0] > 1.1  ||
+      l[1] > 1.1  ||
+      l[2] > 1.1) {
+    l[0] = 1.0F/3;
+    l[1] = 1.0F/3;
+    l[2] = 1.0F/3;
+  }
 
-  u32 r = (u32)(l1 * 256);
-  u32 g = (u32)(l2 * 256);
-  u32 b = (u32)(l3 * 256);
-  
-  return (r << 16) | (g << 8) | b;
+  if (l[0] < 0) l[0] = 0;
+  if (l[0] > 1) l[0] = 1;
+  if (l[1] < 0) l[1] = 0;
+  if (l[1] > 1) l[1] = 1;
+  if (l[2] < 0) l[2] = 0;
+  if (l[2] > 1) l[2] = 1;
+
 }
 
 
 // euler angles
-mat3_t math_roll_mat(real32 roll)
+mat3_t math_roll_mat(r32 roll)
 {
-  real32 s = sinf(roll);
-  real32 c = cosf(roll);
+  r32 s = sinf(roll);
+  r32 c = cosf(roll);
   return (mat3_t) { .m = {
     { 1,  0, 0 },
     { 0,  c, s },
@@ -134,10 +145,10 @@ mat3_t math_roll_mat(real32 roll)
 }
 
 
-mat3_t math_pitch_mat(real32 pitch)
+mat3_t math_pitch_mat(r32 pitch)
 {
-  real32 s = sinf(pitch);
-  real32 c = cosf(pitch);
+  r32 s = sinf(pitch);
+  r32 c = cosf(pitch);
   return (mat3_t) { .m = {
     {  c, 0, s },
     {  0, 1, 0 },
@@ -146,10 +157,10 @@ mat3_t math_pitch_mat(real32 pitch)
 }
 
 
-mat3_t math_yaw_mat(real32 yaw)
+mat3_t math_yaw_mat(r32 yaw)
 {
-  real32 s = sinf(yaw);
-  real32 c = cosf(yaw);
+  r32 s = sinf(yaw);
+  r32 c = cosf(yaw);
   return (mat3_t) { .m = {
     {  c, s, 0 },
     { -s, c, 0 },
@@ -170,11 +181,11 @@ quaternion_t math_quaternion_mul(quaternion_t q1, quaternion_t q2)
 }
 
 
-quaternion_t math_quaternion(vec3_t axis, real32 angle)
+quaternion_t math_quaternion(vec3_t axis, r32 angle)
 {
   quaternion_t q = { 0 };
-  real32 c = cosf(angle/2);
-  real32 s = sinf(angle/2);
+  r32 c = cosf(angle/2);
+  r32 s = sinf(angle/2);
   q.v = math_mul_c_v3(s, axis);
   q.w = c;
   return q;
@@ -241,8 +252,145 @@ vec3_t math_quaternion_rotate_inv(quaternion_t q, vec3_t v)
 /**************************************************************/
 
 
+#define BYTE(bit_idx) (*bit_idx >> 4)
+#define BIT(bit_idx)  (*bit_idx & 0xF)
+u16 math_bits_read_16(u16 *buf, u32 *buf_pos, u32 nbits)
+{
+  ASSERT(nbits <= 16);
+  if (nbits == 0)
+    return 0;
+
+  u16 out = buf[BYTE(buf_pos)] >> BIT(buf_pos);
+
+  u32 shift = BIT(buf_pos) > 16-nbits ? BIT(buf_pos) : 16-nbits;
+  u16 mask = (((u16)~0) >> shift);
+
+  out &= mask;
+
+  if (BIT(buf_pos) + nbits < 16) {
+    *buf_pos += nbits;
+  }
+  else {
+    *buf_pos += nbits;
+
+    mask = ((u16)~0) >> (16-BIT(buf_pos));
+    u16 ext = buf[BYTE(buf_pos)] & mask;
+    out |= ext << (nbits-BIT(buf_pos));
+  }
+
+  return out;
+}
+
+u16 math_bits_peek_16(u16 *buf, u32 buf_pos)
+{
+  u16 out = buf[BYTE(&buf_pos)] >> BIT(&buf_pos);
+
+  out &= ((u16)~0) >> BIT(&buf_pos);
+
+  buf_pos += 16;
+
+  u16 mask = ((u16)~0) >> (16-BIT(&buf_pos));
+  u16 ext = buf[BYTE(&buf_pos)] & mask;
+  out |= ext << (16-BIT(&buf_pos));
+
+  return out;
+}
 
 
+u32 math_endian_swap_u32(u32 n)
+{
+  n = (n >> 16) | (n << 16);
+  return ((n & 0xFF00FF00) >> 8) | ((n & 0x00FF00FF) << 8);
+}
 
+
+u16 math_endian_swap_u16(u16 n)
+{
+  return (n >> 8) | (n << 8);
+}
+
+u16 math_mirror_all_u16(u16 n)
+{
+  n = (n & 0xAAAA) >> 1 | (n & 0x5555) << 1;
+  n = (n & 0xCCCC) >> 2 | (n & 0x3333) << 2;
+  n = (n & 0xF0F0) >> 4 | (n & 0x0F0F) << 4;
+  n = (n & 0xFF00) >> 8 | (n & 0x00FF) << 8;
+  return n;
+}
+
+u16 math_mirror_u16(u16 n, u16 n_bits)
+{
+  ASSERT(n_bits <= 16);
+  n = (n & 0xAAAA) >> 1 | (n & 0x5555) << 1;
+  n = (n & 0xCCCC) >> 2 | (n & 0x3333) << 2;
+  n = (n & 0xF0F0) >> 4 | (n & 0x0F0F) << 4;
+  n = (n & 0xFF00) >> 8 | (n & 0x00FF) << 8;
+  n >>= 16-n_bits;
+  return n;
+}
+
+
+u32 math_crc32(u8 *bytes, u32 len)
+{
+// #define POLYNOM 04 C1 | 1D B7
+// #define POLYNOM 0000 0100 1100 0001 0001 1101 1011 0111
+#define POLYNOM 0x04C11DB7
+
+  u32 res = *(u32*)&bytes[len-4];
+  u32 prev_bit_idx = len*8-1;
+  s32 byte_idx = len-1;
+  u8  bit_idx = 7;
+
+  for (;;) {
+    while (!bytes[byte_idx] && byte_idx >= 0) {
+      --byte_idx;
+      bit_idx = 7;
+    }
+    if (byte_idx == -1)
+      return res;
+    u8 byte = bytes[byte_idx];
+    byte_idx = -1;
+    for (u8 i = 0; i < 8; ++i) {
+      if (byte & 0x80) {
+        byte_idx = 7-i;
+        break;
+      }
+      byte <<= 1;
+    }
+    ASSERT(byte_idx != -1);
+
+    // xor polynom
+    // shift res left and add bits from bytes from the right
+    u32 shift = prev_bit_idx - byte_idx*8 + bit_idx;
+    u32 r = byte_idx*8 + bit_idx - 32;
+    if (shift < 32) {
+      res <<= shift;
+      
+      res |= bytes[0];
+    }
+    else {
+      res = 0;
+    }
+
+
+    prev_bit_idx = byte_idx*8 + bit_idx;
+  }
+}
+
+
+u32 math_adler32(u8 *buf, u32 buf_len)
+{
+  u32 sum = 1;
+  u32 sum_hist = 0;
+  for (u32 i = 0; i < buf_len; ++i) {
+    sum += (u8)*(buf++);
+    sum %= 65521;
+
+    sum_hist += sum;
+    sum_hist %= 65521;
+  }
+
+  return (sum_hist<<16) | sum;
+}
 
 

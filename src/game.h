@@ -11,30 +11,32 @@
 #define GLOBAL_VARIABLE static 
 #define INTERNAL        static
 
-#ifdef GAME_INTERNAL
-#define ASSERT(expr) if (!(expr)) *(int*)NULL = 0;
-#else
+#ifdef RELEASE
 #define ASSERT(expr) 
+#else
+#define ASSERT(expr) if (!(expr)) *(int*)NULL = 0;
 #endif
 
+#define arr_size(arr) (sizeof(arr) / sizeof((arr)[0]))
 
-typedef int8_t  i8;
-typedef int16_t i16;
-typedef int32_t i32;
-typedef int64_t i64;
 
 typedef uint8_t  u8;
 typedef uint16_t u16;
 typedef uint32_t u32;
 typedef uint64_t u64;
 
-typedef uint8_t  bool8;
-typedef uint16_t bool16;
-typedef uint32_t bool32;
-typedef uint64_t bool64;
+typedef int8_t  s8;
+typedef int16_t s16;
+typedef int32_t s32;
+typedef int64_t s64;
 
-typedef float    real32;
-typedef double   real64;
+typedef uint8_t  b8;
+typedef uint16_t b16;
+typedef uint32_t b32;
+typedef uint64_t b64;
+
+typedef float    r32;
+typedef double   r64;
 
 #define IS_ZERO(n) ((n) < EPSILON && (n) > -EPSILON)
 
@@ -54,76 +56,128 @@ typedef double   real64;
 #define DEG2RAD(deg) ((deg)*PI/180.0F)
 
 
-// Generic structures
-
-typedef union vec2_t {
-  real32 v[2];
-  struct { real32 x; real32 y; };
+// math
+typedef union {
+  r32 v[2];
+  struct { r32 x; r32 y; };
 } vec2_t;
 
-typedef union vec3_t {
-  real32 v[3];
-  struct { real32 x; real32 y; real32 z; };
+typedef union {
+  r32 v[3];
+  struct { r32 x; r32 y; r32 z; };
 } vec3_t;
 
-typedef union vec4_t {
-  real32 v[4];
-  struct { real32 x; real32 y; real32 z; real32 w; };
+typedef union {
+  r32 v[4];
+  struct { r32 x; r32 y; r32 z; r32 w; };
 } vec4_t;
 
-typedef union quaternion_t {
-  struct { real32 x; real32 y; real32 z; };
-  struct { real32 i; real32 j; real32 k; };
-  struct { vec3_t v; real32 w; };
+typedef union {
+  struct { r32 x; r32 y; r32 z; };
+  struct { r32 i; r32 j; r32 k; };
+  struct { vec3_t v; r32 w; };
 } quaternion_t;
 
-typedef union mat2_t {
+typedef union {
   vec2_t v[2];
-  real32 m[2][2];
+  r32 m[2][2];
 } mat2_t;
 
-typedef union mat3_t {
+typedef union {
   vec3_t v[3];
-  real32 m[3][3];
+  r32 m[3][3];
 } mat3_t;
 
-typedef union mat4_t {
+typedef union {
   vec4_t v[4];
-  real32 m[4][4];
+  r32 m[4][4];
 } mat4_t;
 
-typedef struct triangle_t {
+typedef struct {
   vec3_t p1;
   vec3_t p2;
   vec3_t p3;
 } triangle_t;
 
 
-// Game specific
+// arena
+typedef struct {
+  u8  *pool;
+  u32  top;
+  u32  size;
+} arena_t;
+
+
+// png
+typedef union {
+  u8  channels[4];
+  u32 out;
+  struct {
+    u8 r:8;
+    u8 g:8;
+    u8 b:8;
+    u8 a:8;
+  };
+} png_pixel_t;
 
 typedef struct {
+  u32 width;
+  u32 height;
+  u32 pixel_bytes;
+  u32 pixel_bits;
+  u32 stride;
+
+  struct {
+    u8  rgb_active:1;
+    u8  alpha_active:1;
+    u8  greyscale_active:1;
+    u8  pallete_active:1;
+    u8  sizes_in_bits:1;
+  };
+
+  png_pixel_t *pixels;
+
+  arena_t arena;
+} png_data_t;
+
+
+// game
+typedef struct {
   void *memory;
-  i32   width;
-  i32   height;
-  i32   bytes_per_pixel;
-  i32   pitch;
-  i32   bitmap_memory_size;
+  s32   width;
+  s32   height;
+  s32   bytes_per_pixel;
+  s32   pitch;
+  s32   bitmap_memory_size;
 } game_offscreen_buffer_t;
 
+typedef struct {
+  r32  *memory;
+  s32   width;
+  s32   height;
+  s32   pitch;
+} game_depth_buffer_t;
 
-typedef struct game_sound_output_t {
-  i32  samples_per_sec;
+
+typedef struct {
+  triangle_t *triangles;
+  u32 triangle_count;
+} game_sim_region_t;
+
+
+typedef struct {
+  s32  samples_per_sec;
   u32  samples_count;
-  i16 *samples;
+  s16 *samples;
 } game_sound_output_t;
 
 
-typedef enum game_key_state_e {
+typedef enum {
   KEY_RELEASED,
   KEY_PRESSED,
 } game_key_state_e;
 
-typedef enum game_key_e {
+typedef enum {
   LOGIC_KEY_RIGHT,
   LOGIC_KEY_LEFT,
   LOGIC_KEY_UP,
@@ -145,65 +199,62 @@ typedef enum game_key_e {
   LOGIC_KEYS_N, 
 } game_key_e;
 
-typedef struct game_key_t {
+typedef struct {
   u8 press_rel;
 } game_key_t;
 
-typedef struct game_input_t {
+typedef struct {
   game_key_t keys[LOGIC_KEYS_N];
 } game_input_t;
 
 
-typedef struct game_state_t {
+typedef struct {
+  arena_t global_arena;
+  arena_t frame_arena;
+  game_offscreen_buffer_t offscreen_buffer;
+  game_depth_buffer_t depth_buffer;
 
-  bool32 running;
-  real32 dt;
+  b32 running;
+  r32 dt;
 
   game_input_t prev_input;
 
   // sound
-  real32 volume;
-  real32 freq;
-  real32 f_step;
-  real32 f_inv_step;
-  real32 t_step;
-  real32 t;
-  bool32 start;
-  bool32 start_samp_count;
-  bool32 start_samp_total;
+  r32 volume;
+  r32 freq;
+  r32 f_step;
+  r32 f_inv_step;
+  r32 t_step;
+  r32 t;
+  b32 start;
+  b32 start_samp_count;
+  b32 start_samp_total;
 
   // camera
   struct {
-    real32 fov;
+    r32 fov;
 
     vec3_t position;
     vec3_t velocity;
+    vec3_t accelaration;
 
-    real32 _far;
-    real32 _near;
+    r32 far;
+    r32 near;
 
     // R U F
     quaternion_t rotation;
     vec3_t       rotation_velocity;
   } camera;
 
-  triangle_t triangle[20];
-  u32        color[20];
+  game_sim_region_t sim_region;
 
 } game_state_t;
 
 
-typedef struct game_memory_t {
-  bool32  is_initialized;
-
-  u64     permanent_storage_size;
-  u8     *permanent_storage;
-
-  u64     transient_storage_size;
-  u8     *transient_storage;
-
+typedef struct {
+  u8  *memory;
+  u64  memory_size;
 } game_memory_t;
-
 
 typedef u64 game_time_t;
 
